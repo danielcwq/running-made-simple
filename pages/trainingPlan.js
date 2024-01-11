@@ -1,7 +1,8 @@
+/*
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCalculator } from "./calculations";
-
+*/
 //const calculateWeeksUntilRaceDay = (raceDay) => {
 //  const currentDate = new Date();
 //  const raceDate = new Date(raceDay);
