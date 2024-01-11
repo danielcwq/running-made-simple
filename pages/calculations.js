@@ -65,7 +65,7 @@ export const useCalculator = () => {
       const hrZone2End = 0.88 * maxHeartRate;
       const Hzones = {
         "Zone 1": `<${Math.round(hrZone1)}bpm`,
-        "Zone 2": `from ${Math.round(hrZone2Start)}bpm-${Math.round(
+        "Zone 2": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
           hrZone2End
         )}bpm`,
       };

@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCalculator } from "./calculations";
 
-const calculateWeeksUntilRaceDay = (raceDay) => {
-  const currentDate = new Date();
-  const raceDate = new Date(raceDay);
-  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+//const calculateWeeksUntilRaceDay = (raceDay) => {
+//  const currentDate = new Date();
+//  const raceDate = new Date(raceDay);
+//  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
 
-  return Math.round((raceDate - currentDate) / millisecondsPerWeek);
-};
-const weeksRemaining = calculateWeeksUntilRaceDay(raceDay);
-
+//  return Math.round((raceDate - currentDate) / millisecondsPerWeek);
+//};
+//const weeksRemaining = calculateWeeksUntilRaceDay(raceDay);
+/*
+const { results } = useCalculator();
 const allWorkouts = {
   "1a": { description: "30min {Z1}" },
   "1b": {
@@ -66,7 +67,7 @@ const allWorkouts = {
 };
 const workoutPlanMapping = {};
 
-const getWorkoutForRemainingWeeks = (weeksRemaining) => {};
+//const getWorkoutForRemainingWeeks = (weeksRemaining) => {};
 
 //function to map Z1 and Z2. remember to add <TrainingPlan trainingPlanData (or whatever it's called) to main component and add as prop>- refer to ChatGPT later
 const replaceZonePlaceholders = (workoutDescription, hrZones) => {
@@ -75,6 +76,7 @@ const replaceZonePlaceholders = (workoutDescription, hrZones) => {
     .replace(/{Z2}/g, hrZones["Zone 2"]);
   // ... handle other zones if needed
 };
+/*
 const TrainingPlan = ({ raceDate, hrZones }) => {
   const weeksRemaining = calculateWeeksUntilRaceDay(raceDate);
   const trainingPlanForUser = getWorkoutForRemainingWeeks(weeksRemaining);
@@ -98,3 +100,4 @@ const TrainingPlan = ({ raceDate, hrZones }) => {
     </div>
   );
 };
+*/
