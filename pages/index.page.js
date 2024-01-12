@@ -62,14 +62,14 @@ export default function Home() {
                 placeholder="Minutes"
                 value={timeMinutes}
                 onChange={(e) => setTimeMinutes(e.target.value)}
-                classname="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
               />
               <input
                 type="number"
                 placeholder="Seconds"
                 value={timeSeconds}
                 onChange={(e) => setTimeSeconds(e.target.value)}
-                classname="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@ export default function Home() {
                 placeholder="Age"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                classname="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
             <div>
