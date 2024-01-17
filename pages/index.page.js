@@ -1,188 +1,127 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useCalculator } from "./calculations";
 import Link from "next/link";
+import Image from "next/image";
 
-//Init
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const {
-    timeMinutes,
-    setTimeMinutes,
-    timeSeconds,
-    setTimeSeconds,
-    age,
-    setAge,
-    raceDay,
-    setRaceDay,
-    errors,
-    results,
-    validateAndCalculate,
-  } = useCalculator();
-  const [activeTab, setActiveTab] = useState("racePacing");
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    console.log("results when switching to $(tabName):", results);
-  };
-
-  // Handler for form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const isValid = validateAndCalculate();
-    if (!isValid) {
-      // Handle the invalid case, such as showing errors
-      // Error messages are available in the 'errors' object
-      console.log(errors);
+  const [darkMode, setDarkMode] = useState(false);
+  // Effect to apply the dark mode class to the body
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
     } else {
-      // Proceed with the valid input case
-      // ...
+      document.documentElement.classList.remove("dark");
     }
-    console.log("Rendering content for tab: ", activeTab);
-    console.log("Current results: ", results);
-  };
+    // Save to localStorage
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
+  // Effect to check for saved preference in localStorage
+  useEffect(() => {
+    const isDarkMode = localStorage.getItem("darkMode") === "true";
+    setDarkMode(isDarkMode);
+  }, []);
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold mb-6 text-center">
-            Running Made Simple 2.4km Calculator
+          <h1 className="text-2xl font-bold my-6 text-center">
+            Running Made Simple
           </h1>
-          <p className="my-5">
+          <p className="">
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
             <Link href="https://danielching.me"> Daniel Ching</Link>
           </p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">
-                Time for 1.2km run:
-              </label>
-              <input
-                type="number"
-                placeholder="Minutes"
-                value={timeMinutes}
-                onChange={(e) => setTimeMinutes(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-              <input
-                type="number"
-                placeholder="Seconds"
-                value={timeSeconds}
-                onChange={(e) => setTimeSeconds(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Age:</label>
-              <input
-                type="number"
-                placeholder="Age"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label>Race Day:</label>
-              <input
-                type="date"
-                value={raceDay}
-                onChange={(e) => setRaceDay(e.target.value)}
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
-            >
-              Calculate
-            </button>
-            {errors.time && <p className="error">{errors.time}</p>}
-            {errors.age && <p className="error">{errors.age}</p>}
-            {errors.raceDay && <p className="error">{errors.raceDay}</p>}
-            <div className="flex">
-              <button
-                onClick={() => handleTabChange("racePacing")}
-                className={`py-2 px-4 mr-2 font-medium rounded-md ${
-                  activeTab === "racePacing"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-blue-600 border border-blue-600"
-                }`}
+          <div className="bg-white p-4 shadow-md rounded-lg max-w-2xl mx-auto mb-4">
+            <div className="flex flex-col space-y-4 justify-center items-center">
+              <Link
+                href="/training-zone-calculator"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-64"
               >
-                Race Day Pacing
-              </button>
-              <button
-                onClick={() => handleTabChange("zones")}
-                className={`py-2 px-4 font-medium rounded-md ${
-                  activeTab === "zones"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-blue-600 border border-blue-600"
-                }`}
+                Training Zone Calculator
+              </Link>
+              <Link
+                href="/race-pace-calculator"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-64"
               >
-                Zones
-              </button>
-              {/*<button
-                onClick={() => handleTabChange("trainingPlan")}
-                className={`py-2 px-4 ml-2 font-medium rounded-md ${
-                  activeTab === "trainingPlan"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-blue-600 border border-blue-600"
-                }`}
+                Race Pace Calculator
+              </Link>
+              <Link
+                href="/blog"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 w-64"
               >
-                Training Plan
-              </button> */}
+                Blog
+              </Link>
             </div>
-            <div>
-              {activeTab === "racePacing" && (
-                <div>
-                  <h2 className="font-bold text-xl my-2">Results</h2>
-                  <h2 className="font-semibold text-lg">
-                    Estimated Race Time:{" "}
-                  </h2>
-                  {results.estimatedRaceTime}
-
-                  <h2 className="font-semibold text-lg my-2">
-                    Race Day Pacing
-                  </h2>
-                  <ul>
-                    {Object.entries(results.pacing).map(([distance, time]) => (
-                      <li key={distance}>
-                        {distance} Pacing: {time}
-                      </li>
-                    ))}
-                  </ul>
-                  <h2 className="font-semibold text-lg my-2">
-                    Cumulative Lap Times
-                  </h2>
-                  <ul>
-                    {Object.entries(results.cumulativeLapTime).map(
-                      ([lap, time]) => (
-                        <li key={lap}>
-                          {lap} : {time}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </div>
-              )}
-              {activeTab === "zones" && (
-                <div>
-                  <h2 className="font-bold text-xl my-2">Training Zones</h2>
-                  <ul>
-                    {Object.entries(results.Hzones).map(
-                      ([zone, description]) => (
-                        <li key={zone}>
-                          <strong>{zone}</strong>: {description}
-                        </li>
-                      )
-                    )}
-                    <strong>Zone 3:</strong> run at {results.zone3pace} per km
-                    or {results.zone3speed}
-                    km/h on treadmill
-                  </ul>
-                </div>
-              )}
+          </div>
+          <h2 className="mt-5 font-bold text-xl flex justify-start">About</h2>
+          <p className="my-5 text-justify">
+            This hub was built in hopes of easing the burden for beginners to
+            get started in running. Born out of a Yakun coffee chat, crafted
+            with love.
+          </p>
+          <p className="mt-2 text-justify">
+            Running doesn't have to be hard or tedious. It starts with small
+            steps. We believe that knowledge shouldn't be gatekept; we're
+            offering you these customised plans completely free.
+          </p>
+          <h2 className="mt-5 font-bold text-xl flex justify-start">
+            What's to come
+          </h2>
+          <div>
+            <p className="mt-2 text-justify">
+              We're currently developing an additional page where a 2.4km
+              training plan would be generated based on your inputs, making the
+              plan fully customisable. We hope to develop this to a full scale
+              app, giving training plans for longer distances (5k, 10k, HM, FM)
+              and utilising AI to support further customisation.
+            </p>
+          </div>
+          <h2 className="mt-5 font-bold text-xl flex justify-start">
+            Behind this initiative{" "}
+          </h2>
+          <div className="flex flex-col items-center justify-start mt-5">
+            <div className="w-28 h-28 relative mr-4 mb-4 sm:mb-0">
+              <Image
+                src="/mugshot-mok.png"
+                alt="Mok Ying Ren"
+                layout="fill"
+                className="rounded-full"
+                objectFit="cover"
+              />
             </div>
-          </form>
+            <p className="text-justify">
+              <strong>
+                <Link href="https://mokyingren.sg">Mok Ying Ren</Link>
+              </strong>{" "}
+              is an Associate Consultant at the Department of Orthopaedics at
+              NUH.
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-start mt-5">
+            <div className="w-28 h-28 relative mr-4 mb-4 sm:mb-0">
+              <Image
+                src="/mugshot-daniel.png"
+                alt="Daniel Ching"
+                layout="fill"
+                className="rounded-full mb-5"
+                objectFit="cover"
+              />
+            </div>
+            <p className="text-justify">
+              <strong>
+                <Link href="https://danielching.me">Daniel</Link>
+              </strong>{" "}
+              is a full-time NSF. He's interested in AI, physiology and the
+              intersection of these two fields.
+            </p>
+          </div>
+          <div>
+            <p className="mt-2 text-justify">
+              They both attend Redemption Hill Church and share a common passion
+              for running!
+            </p>
+          </div>
         </div>
       </div>
     </main>

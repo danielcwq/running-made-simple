@@ -60,8 +60,8 @@ export const useCalculator = () => {
     };
     const calculateHRZones = () => {
       const maxHeartRate = 211 - 0.54 * age;
-      const hrZone1 = 0.75 * maxHeartRate;
-      const hrZone2Start = 0.75 * maxHeartRate;
+      const hrZone1 = 0.7 * maxHeartRate;
+      const hrZone2Start = 0.8 * maxHeartRate;
       const hrZone2End = 0.88 * maxHeartRate;
       const Hzones = {
         "Zone 1": `<${Math.round(hrZone1)}bpm`,
@@ -104,6 +104,7 @@ export const useCalculator = () => {
     if (!age.trim()) {
       newErrors.age = "Please enter your age.";
     }
+    /*
     if (!raceDay.trim()) {
       newErrors.raceDay = "Please enter a race day.";
     } else {
@@ -127,7 +128,7 @@ export const useCalculator = () => {
       setErrors(newErrors);
       return false; // Indicate that validation failed
     }
-
+    */
     // If validation passes, perform the calculations
     performCalculations();
     // Return true to indicate success

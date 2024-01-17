@@ -1,104 +1,82 @@
-/*
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useCalculator } from "./calculations";
-*/
-//const calculateWeeksUntilRaceDay = (raceDay) => {
-//  const currentDate = new Date();
-//  const raceDate = new Date(raceDay);
-//  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+import React from "react";
+import { useCalculator } from "../hooks/useCalculator";
 
-//  return Math.round((raceDate - currentDate) / millisecondsPerWeek);
-//};
-//const weeksRemaining = calculateWeeksUntilRaceDay(raceDay);
-/*
-const { results } = useCalculator();
 const allWorkouts = {
-  "1a": { description: "30min {Z1}" },
-  "1b": {
-    description:
-      "Warm Up 10min in {Z1}, 1.2km Time Trial on track (3 laps), Cool Down 10min in {Z1}",
-  },
-  "2a": {
-    description: `Warm Up 10min in {Z1}, (200m in ${Math.floor(
-      RaceTimeInSeconds / 12 / 60
-    )}m ${Math.floor(
-      (RaceTimeInSeconds / 12) % 60
-    )}s, 1min {Z1})x6, Cool Down 8min {Z1}`,
-  },
-  "3a": {
-    description:
-      "Warm Up 10min in {Z1}, 10min in {Z2}, Cool Down 10min in {Z1}",
-  },
-  "3b": {
-    description: "Warm Up 10min in {Z1}, 12min in {Z2}, Cool Down 8min in {Z1}",
-  },
-  "3c": {
-    description: "Warm Up 10min in {Z1}, 15min in {Z2}, Cool Down 5min in {Z1}",
-  },
-  "3d": {
-    description: `Warm Up 10min in {Z1}, (400m in ${Math.floor(
-      RaceTimeInSeconds / 8 / 60
-    )}m ${Math.floor(
-      (RaceTimeInSeconds / 8) % 60
-    )}s, 2min {Z1})x3, Cool Down 8min {Z1}`,
-  },
-  "4a": {
-    description: "Warm Up 10min in {Z1}, 5min in {Z2}, Cool Down 15min in {Z1}",
-  },
-  "4b": {
-    description: `Warm Up 10min in {Z1}, (600m in ${Math.floor(
-      RaceTimeInSeconds / 4 / 60
-    )}m ${Math.floor(
-      (RaceTimeInSeconds / 4) % 60
-    )}s, 2min {Z1}x3), Cool Down 5min {Z1}`,
-  },
-  "4c": {
-    description: `Warm Up 10min in {Z1}, (800m in {Math.floor(RaceTimeInSeconds / 3 / 60)}m ${Math.floor(
-      (RaceTimeInSeconds / 3) % 60
-    )}s, 3min {Z1}x2), Cool Down 5min {Z1}`,
-  },
-  "5c": {
-    description: `Warm Up 10min in {Z1}, (200m in ${Math.floor(
-      RaceTimeInSeconds / 12 / 60
-    )}m ${Math.floor(
-      (RaceTimeInSeconds / 12) % 60
-    )}s, 1min {Z1})x4, Cool Down 8min {Z1}`,
-  },
+  "1a": { description: "1.2km Time Trial on Track (3 laps)" },
+  "1b": { description: "4min {Z2}, 4min {Z1}, 4min {Z2}" },
+  "2a": { description: "(200m Z3, 1min {Z1})x6 " }, // additional logic to input Z3 zones and calculations by ratio here
+  "2b": { description: "5min {Z2}, 4min {Z1}, 5min {Z2}" },
+  // ... other workouts ...
 };
-const workoutPlanMapping = {};
 
-//const getWorkoutForRemainingWeeks = (weeksRemaining) => {};
-
-//function to map Z1 and Z2. remember to add <TrainingPlan trainingPlanData (or whatever it's called) to main component and add as prop>- refer to ChatGPT later
-const replaceZonePlaceholders = (workoutDescription, hrZones) => {
-  return workoutDescription
-    .replace(/{Z1}/g, hrZones["Zone 1"])
-    .replace(/{Z2}/g, hrZones["Zone 2"]);
-  // ... handle other zones if needed
+const workoutSchedule = {
+  12: ["1a", "1b", "2a", "2b", "3a", "3b", "12a", "12b"],
+  4: ["1a", "1b", "2a", "2b", "1a", "2b", "2a", "2b"],
+  1: ["1a", "1b"],
+  // ... other specific schedules ...
 };
-/*
-const TrainingPlan = ({ raceDate, hrZones }) => {
+
+const getWorkoutForRemainingWeeks = (weeksRemaining) => {
+  const selectedWorkouts =
+    workoutSchedule[weeksRemaining] || workoutSchedule[12];
+  return selectedWorkouts.map((workoutId) => {
+    let description = allWorkouts[workoutId].description;
+
+    // Replace placeholders with race time data
+    description = description.replace(
+      /{Z1}/g,
+
+      "Z1"
+    ); // Replace with actual logic to insert HR Zone data
+    description = description.replace(/{Z2}/g, "Z2");
+    // Add more replacements for other zones if needed
+
+    return {
+      ...allWorkouts[workoutId],
+      description: description,
+    };
+  });
+};
+
+const TrainingPlan = ({ raceDate }) => {
+  const { results } = useCalculator();
+  const raceTimeInSeconds = results.RaceTimeInSeconds; // Assuming this value comes from results
+
+  const calculateWeeksUntilRaceDay = (raceDay) => {
+    const currentDate = new Date();
+    const raceDate = new Date(raceDay);
+    const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000;
+
+    return Math.round((raceDate - currentDate) / millisecondsPerWeek);
+  };
+
   const weeksRemaining = calculateWeeksUntilRaceDay(raceDate);
-  const trainingPlanForUser = getWorkoutForRemainingWeeks(weeksRemaining);
+  const trainingPlanForUser = getWorkoutForRemainingWeeks(
+    weeksRemaining,
+    raceTimeInSeconds
+  );
+
   return (
-    <div>
-      {trainingPlanData.map((week) => (
-        <div key={week.week} className="mb-4">
-          <h3 className="text-lg font-semibold">
-            Week {week.week}: {week.phase} (Starting {week.startDate})
-          </h3>
-          <ul>
-            {Object.entries(week.sessions).map(([day, session]) => (
-              <li key={day} className="mt-1">
-                <strong>{day}:</strong>{" "}
-                {replaceZoneTextWithHRValues(session, hrZones)}
-              </li>
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Workout 1</th>
+          <th>Workout 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.keys(workoutSchedule).map((week, index) => (
+          <tr key={index}>
+            <td>{`Week ${week}`}</td>
+            {trainingPlanForUser[week].map((workout, idx) => (
+              <td key={idx}>{workout.description}</td>
             ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
-*/
+
+export default TrainingPlan;
