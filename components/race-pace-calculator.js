@@ -19,6 +19,7 @@ const RacePaceCalculator = () => {
     const lapTime = formatTime(lapTimeSeconds);
     const time100m = (lapTimeSeconds / 4).toFixed(1); // One decimal place for 100m
     const time200m = formatTime(lapTimeSeconds / 2); // Split into minutes and seconds for 200m
+    const time300m = formatTime(lapTimeSeconds / 1.3333);
 
     const speedKmH = (distance / 1000 / (totalSeconds / 3600)).toFixed(2); // Speed in km/h
     const cumulativeLapTimes = calculateCumulativeLapTimes(
@@ -30,6 +31,8 @@ const RacePaceCalculator = () => {
       speedKmH,
       time100m,
       time200m,
+      time300m,
+      lapTime,
       lapTimes: cumulativeLapTimes, // Setting the calculated lap times
     });
   };
@@ -130,12 +133,21 @@ const RacePaceCalculator = () => {
           </form>
           {results && results.lapTimes && (
             <div>
-              <h2>Results:</h2>
-              <p>Speed: {results.speedKmH} km/h</p>
-              <p>Time per 100m: {results.time100m} seconds</p>
-              <p>
-                Time per 200m: {results.time200m.mins} minutes{" "}
-                {results.time200m.secs} seconds
+              <h2 className="font-bold text-xl my-2">Results:</h2>
+              <p className="my-2">Speed: {results.speedKmH} km/h</p>
+              <h3 className="font-bold text-lg my-2">Time per</h3>
+              <p className="mt-2"> 100m: {results.time100m} seconds</p>
+              <p className="">
+                200m: {results.time200m.mins} minutes {results.time200m.secs}{" "}
+                seconds
+              </p>
+              <p className="">
+                300m: {results.time300m.mins} minutes {results.time300m.secs}{" "}
+                seconds
+              </p>
+              <p className="mb-2">
+                400m: {results.lapTime.mins} minutes {results.lapTime.secs}{" "}
+                seconds
               </p>
               <table>
                 <thead>

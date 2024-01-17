@@ -191,19 +191,31 @@ export default function TrainingZones() {
                         </li>
                       )
                     )}
-                    <strong>Zone 3:</strong> run at {results.zone3pace} per km
-                    or {results.zone3speed}
-                    km/h on treadmill
                   </ul>
-                  <ul>
-                    {Object.entries(results.pacing).map(([distance, time]) => (
-                      <li key={distance}>
-                        {distance} Pacing: {time}
-                      </li>
-                    ))}
-                  </ul>
+                  <div>
+                    <h2 className="font-bold my-2">Zone 3</h2>
+                    <p className="italic">2.4km (VO2 Max) Pacing</p>
+                    <ul>
+                      {Object.entries(results.pacing).map(
+                        ([distance, time]) => (
+                          <li key={distance}>
+                            {distance} Pacing: {time}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                    <div className="my-3">
+                      Run at <strong>{results.zone3pace} per km </strong>or{" "}
+                      <strong>
+                        {results.zone3speed}
+                        km/h
+                      </strong>{" "}
+                      on treadmill
+                    </div>
+                  </div>
                 </div>
               )}
+
               {activeTab === "trainingPlan" && (
                 <TrainingPlan raceDay={raceDay} />
               )}
