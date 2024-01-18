@@ -122,13 +122,13 @@ export const useCalculator = () => {
           "Race day must be within 12 weeks from today and cannot be in the past.";
       }
     }
-
+*/
     // Update the errors state if there are any errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return false; // Indicate that validation failed
     }
-    */
+
     // If validation passes, perform the calculations
     performCalculations();
     // Return true to indicate success

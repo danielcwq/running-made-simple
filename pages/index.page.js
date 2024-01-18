@@ -95,7 +95,7 @@ export default function Home() {
                 <Link href="https://mokyingren.sg">Mok Ying Ren</Link>
               </strong>{" "}
               is an Associate Consultant at the Department of Orthopaedics at
-              NUH.
+              NUH, 2x SEA Games Gold Medallist.
             </p>
           </div>
           <div className="flex flex-col items-center justify-start mt-5">
