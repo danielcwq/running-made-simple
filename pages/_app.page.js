@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
+import { DefaultSeo } from "next-seo";
 
 export default function App({ Component, pageProps }) {
   return (
