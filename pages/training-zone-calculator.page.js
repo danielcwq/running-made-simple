@@ -13,8 +13,8 @@ export default function TrainingZones() {
     setTimeMinutes,
     timeSeconds,
     setTimeSeconds,
-    age,
-    setAge,
+    birthdate,
+    setBirthdate,
     raceDay,
     setRaceDay,
     errors,
@@ -77,13 +77,14 @@ export default function TrainingZones() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">Age:</label>
+              <label className="block text-sm font-medium">Birthday:</label>
               <input
-                type="number"
+                type="date"
                 placeholder="Age"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
                 className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
               />
             </div>
             {/*
@@ -97,12 +98,7 @@ export default function TrainingZones() {
             </div>
             */}
 
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
-            >
-              Calculate
-            </button>
+
             {errors.time && <p className="error">{errors.time}</p>}
             {errors.age && <p className="error">{errors.age}</p>}
             {/*

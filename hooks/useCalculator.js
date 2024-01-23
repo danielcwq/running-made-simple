@@ -4,7 +4,8 @@ export const useCalculator = () => {
   // State hooks
   const [timeMinutes, setTimeMinutes] = useState("");
   const [timeSeconds, setTimeSeconds] = useState("");
-  const [age, setAge] = useState("");
+
+  const [birthdate, setBirthdate] = useState("");
   const [raceDay, setRaceDay] = useState("");
   const [errors, setErrors] = useState({}); // New state for managing errors
   const [results, setResults] = useState({
@@ -58,7 +59,14 @@ export const useCalculator = () => {
         (RaceTimeInSeconds / 1.2) % 60
       )}s`,
     };
+    const calculateAge = (birthdate) =>{
+      const birthDate= new Date(birthdate);
+      const difference = Date.now()-birthDate.getTime();
+      const ageDate = new Date(difference);
+      return Math.abs(ageDate.getUTCFullYear()-1970).toFixed(5);
+    }
     const calculateHRZones = () => {
+      const age = calculateAge(birthdate);
       const maxHeartRate = 211 - 0.54 * age;
       const hrZone1 = 0.7 * maxHeartRate;
       const hrZone2Start = 0.8 * maxHeartRate;
@@ -80,7 +88,6 @@ export const useCalculator = () => {
     const estimatedRaceTime = `${Math.floor(
       RaceTimeInSeconds / 1 / 60
     )}m ${Math.floor((RaceTimeInSeconds / 1) % 60)}s`;
-
     // Update results state
     setResults({
       pacing,
@@ -101,9 +108,7 @@ export const useCalculator = () => {
     if (!timeMinutes.trim() || !timeSeconds.trim()) {
       newErrors.time = "Please enter both minutes and seconds for the time.";
     }
-    if (!age.trim()) {
-      newErrors.age = "Please enter your age.";
-    }
+
     /*
     if (!raceDay.trim()) {
       newErrors.raceDay = "Please enter a race day.";
@@ -142,12 +147,12 @@ export const useCalculator = () => {
     setTimeMinutes,
     timeSeconds,
     setTimeSeconds,
-    age,
-    setAge,
     raceDay,
     setRaceDay,
     errors,
     results,
     validateAndCalculate,
+    birthdate,
+    setBirthdate,
   };
 };
