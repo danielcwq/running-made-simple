@@ -2,10 +2,19 @@ import React from "react";
 import { useCalculator } from "../hooks/useCalculator";
 
 const allWorkouts = {
-  "1a": { description: "1.2km Time Trial on Track (3 laps)" },
-  "1b": { description: "4min {Z2}, 4min {Z1}, 4min {Z2}" },
-  "2a": { description: "(200m Z3, 1min {Z1})x6 " }, // additional logic to input Z3 zones and calculations by ratio here
-  "2b": { description: "5min {Z2}, 4min {Z1}, 5min {Z2}" },
+  "Z1.30": { description: "30min at Z1" },
+  "Z2.2": { description: "5 x (2min Z2, 2min Z1)" },
+  "Z2.3": { description: "3 x (3min Z2, 3min Z1)" }, // additional logic to input Z3 zones and calculations by ratio here
+  "Z2.4": { description: "3 x (4min Z2, 2min Z2)" },
+  "Z2.5": { description: "2 x (5min Z2, 5min Z1)" },
+  "Z2.6": { description: "2 x (6min Z2, 3min Z1)" },
+  "2.4/200": { description: "8 x (200m @2.4km Pace, {Z3 200m} recovery)" },
+  "2.4/300": { description: "5 x (300m @2.4km Pace, {Z3 300m} recovery" },
+  "2.4/400": { description: "4 x (400m @2.4km Pace, {Z3 400m} recovery" },
+  "2.4/500": { description: "3 x (500m @2.4km Pace, {Z3 500m} recovery" },
+  "2.4/600": { description: "4 x (600m @2.4km Pace, {Z3 600m} recovery" },
+  "2.4/800": { description: "2 x (800m @2.4km Pace, {Z3 800m} recovery" },
+  "2.4/1000": { description: "2 x (400m @2.4km Pace, {Z3 1000m} recovery" },
   // ... other workouts ...
 };
 
