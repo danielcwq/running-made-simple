@@ -47,6 +47,12 @@ export default function Home() {
                 Race Pace Calculator
               </Link>
               <Link
+                href="/2.4kmTrainingPlan"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-64"
+              >
+                2.4km Training Plan Generator
+              </Link>
+              <Link
                 href="/blog"
                 className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 w-64"
               >

@@ -33,6 +33,14 @@ const Navigation = () => {
               Race Pace Calculator
             </Link>
           )}
+          {router.pathname !== "/2.4kmTrainingPlan" && (
+            <Link
+              href="/2.4kmTrainingPlan"
+              className="text-gray-900 hover:bg-gray-100 px-5 py-2 rounded-md text-sm font-medium"
+            >
+              2.4kmTrainingPlan
+            </Link>
+          )}
           {router.pathname !== "/blog" && (
             <Link
               href="/blog"

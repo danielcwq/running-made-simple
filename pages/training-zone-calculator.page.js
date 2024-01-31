@@ -45,7 +45,7 @@ export default function TrainingZones() {
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md md:max-w-xl">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold my-3 text-center">
             Training Zone Calculator
@@ -97,7 +97,6 @@ export default function TrainingZones() {
               />
             </div>
             */}
-
 
             {errors.time && <p className="error">{errors.time}</p>}
             {errors.age && <p className="error">{errors.age}</p>}
