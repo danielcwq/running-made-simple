@@ -54,6 +54,7 @@ const TrainingPlanGenerator = () => {
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
             <Link href="https://danielching.me"> Daniel Ching</Link>
           </p>
+          <p>Some functionalities don't work, we're working to fix it!</p>
           <Navigation />
         </div>
         <div>

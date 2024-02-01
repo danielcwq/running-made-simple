@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const filePath = path.resolve("./public", "JustIPPT.xlsx"); // Adjust the path as necessary
+    const filePath = path.resolve("./public", "JustIPPT.xlsx");
     const workbook = xlsx.readFile(filePath);
     const sheetName = `Week${week}`;
     const worksheet = workbook.Sheets[sheetName];

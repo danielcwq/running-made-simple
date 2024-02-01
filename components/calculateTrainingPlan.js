@@ -34,7 +34,7 @@ const getTrainingPlanFromSheet = async (weeksUntilRace) => {
 }
 const fetchTrainingPlanData = async (weeksUntilRace) => {
   try {
-    const response = await fetch(`/api/training-plan?week=${weeksUntilRace}`);
+    const response = await fetch(`/api/training-plan/week/${weeksUntilRace}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
