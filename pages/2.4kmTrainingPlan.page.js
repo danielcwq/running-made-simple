@@ -48,7 +48,7 @@ const TrainingPlanGenerator = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold my-3 text-center">
-            2.4km Training Plan Generator
+            Page under construction!
           </h1>
           <p className="">
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
