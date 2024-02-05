@@ -29,6 +29,18 @@ export default function Blog() {
               : Daniel's manifesto on improving your 2.4km run time, top Google
               search result (targetted to more experienced runners).
             </li>
+          </ul>{" "}
+          <ul className="list-disc pl-5">
+            <li>
+              <Link
+                href="https://betterhumans.pub/preventing-overtraining-achieving-sustainable-growth-c47fcc6c2d7f"
+                target="_blank"
+                className="hover:text-blue-600 italic"
+              >
+                Preventing Overtraining: Achieving Sustainable Growth
+              </Link>
+              : Daniel's article on training sustainably.
+            </li>
           </ul>
           <ul className="list-disc pl-5 my-3">
             <li>
