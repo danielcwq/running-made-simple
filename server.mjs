@@ -1,3 +1,5 @@
+//shifted handling to client side, this is not needed
+/*
 import express from "express";
 import next from "next";
 import MyRouter from "./pages/api/trainingPlanProcessing.mjs";
@@ -21,3 +23,4 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });
+*/

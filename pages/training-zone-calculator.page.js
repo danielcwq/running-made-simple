@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useCalculator } from "../hooks/useCalculator";
 import Link from "next/link";
-import TrainingPlan from "./trainingPlan";
 import Navigation from "@/components/navigation";
 
 //Init
@@ -209,10 +208,6 @@ export default function TrainingZones() {
                     </div>
                   </div>
                 </div>
-              )}
-
-              {activeTab === "trainingPlan" && (
-                <TrainingPlan raceDay={raceDay} />
               )}
             </div>
           </form>

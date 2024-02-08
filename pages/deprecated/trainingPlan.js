@@ -1,5 +1,5 @@
 import React from "react";
-import { useCalculator } from "../hooks/useCalculator";
+import { useCalculator } from "../../hooks/useCalculator";
 
 const allWorkouts = {
   "Z1.30": { description: "30min at Z1" },

@@ -1,3 +1,8 @@
+import xlsx from "xlsx";
+import path from "path";
+import { useState } from "react";
+import * as XLSX from "xlsx";
+
 const workoutDescriptions = {
   "Z1.20": "run 20min at {Z1}",
   "Z1.30": "run 30min at {Z1}",
@@ -16,10 +21,9 @@ const workoutDescriptions = {
   Nil: "Rest",
   "T/200/5": "2 x (200m in {Z3 200m}, {Z3 400m} recovery)",
 };
-{
-  /* 
+/* THIS DOESN'T WORK BECAUSE XLSX.READFILE IS A SERVER-SIDE OPERATION, NOT A CLIENT SIDE ONE 
 const getTrainingPlanFromSheet = async (weeksUntilRace) => {
-  const xlsxFilePath = path.resolve("./public", "Just2.4km.xlsx");
+  const xlsxFilePath = path.resolve("./public", "JustIPPT.xlsx");
   const workbook = xlsx.readFile(xlsxFilePath);
   const sheetName = `Week${weeksUntilRace}`;
 
@@ -31,7 +35,27 @@ const getTrainingPlanFromSheet = async (weeksUntilRace) => {
   return xlsx.utils.sheet_to_json(sheet);
 };
 */
-}
+
+const fetchAndProcessXLSX = async (weeksUntilRace) => {
+  // Fetch the .xlsx file from the public directory
+  const response = await fetch(`/JustIPPT.xlsx`);
+  const arrayBuffer = await response.arrayBuffer();
+  const data = new Uint8Array(arrayBuffer);
+  const workbook = XLSX.read(data, { type: "array" });
+
+  // Get the sheet for the specific week
+  const sheetName = `Week${weeksUntilRace}`;
+  const worksheet = workbook.Sheets[sheetName];
+  if (!worksheet) {
+    throw new Error(`Sheet for week ${weeksUntilRace} not found`);
+  }
+
+  // Convert sheet to JSON
+  const json = XLSX.utils.sheet_to_json(worksheet);
+  return json;
+};
+
+/*
 const fetchTrainingPlanData = async (weeksUntilRace) => {
   try {
     const response = await fetch(`/api/training-plan/week/${weeksUntilRace}`);
@@ -45,17 +69,10 @@ const fetchTrainingPlanData = async (weeksUntilRace) => {
     console.error("Fetching training plan failed:", error);
   }
 };
-
+*/
 // Placeholder for the logic to calculate the pace zones
 const calculateZ3Pace = (totalSeconds) => {
-  // Convert the 1.2km time trial to seconds for calculation, lines 52 and 53 are not needed
-  //const totalSeconds =
-  //  parseInt(timeTrial.split(":")[0]) * 60 + parseInt(timeTrial.split(":")[1]);
-
-  // Calculate the race pace using the formula from useCalculator.js
   const raceTimeInSeconds = totalSeconds * Math.pow(2, 1.06);
-
-  // Define the Z3 paces for different distances based on the 1.2km time
   const paces = {
     "Z3 100m": (raceTimeInSeconds / 24).toFixed(0) + "s",
     "Z3 200m":
@@ -94,10 +111,6 @@ const calculateZ3Pace = (totalSeconds) => {
   return paces;
 };
 
-// Example usage:
-// const z3Paces = calculateZ3Pace('5:00'); // 5 minutes and 00 seconds for 1.2km time trial
-// console.log(z3Paces['Z3 200m']); // Outputs the pace for 200m in Z3
-
 const calculateHeartRateZones = (birthdate) => {
   const calculateAge = (birthdate) => {
     const birthDate = new Date(birthdate);
@@ -117,11 +130,6 @@ const calculateHeartRateZones = (birthdate) => {
     Z2: `${z2LowerLimit}-${z2UpperLimit} bpm`,
   };
 };
-
-// Example usage:
-// const hrZones = calculateHeartRateZones('1990-01-01');
-// console.log(hrZones.Z1); // Outputs the heart rate zone for Z1
-// console.log(hrZones.Z2); // Outputs the heart rate zone for Z2
 
 // Placeholder for the logic to calculate the weeks until the race
 const calculateWeeksUntilRace = (raceDate) => {
@@ -176,51 +184,43 @@ const replaceWorkoutPlaceholders = (workoutDescription, z3Paces, hrZones) => {
 };
 
 export const calculateTrainingPlan = async (timeTrial, birthdate, raceDate) => {
-  // Existing calculations
   const weeksUntilRace = calculateWeeksUntilRace(raceDate);
   const z3Paces = calculateZ3Pace(timeTrial);
   const hrZones = calculateHeartRateZones(birthdate);
 
-  let schedule;
-
-  // Fetch the training plan using the fetchTrainingPlanData function
   try {
-    schedule = await fetchTrainingPlanData(weeksUntilRace);
-    console.log("Schedule received:", schedule); // This will output the schedule to the console
+    const schedule = await fetchAndProcessXLSX(weeksUntilRace);
+
+    if (!Array.isArray(schedule)) {
+      console.error("Expected an array for schedule, received:", schedule);
+      return [];
+    }
+
+    // Map through the schedule to replace placeholders and return the training plan
+    const trainingPlan = schedule.map((workout) => {
+      // Assuming workout has properties like 'Phase', 'Weeks to 2.4km', 'Session 1', 'Session 2', 'Session 3'
+      console.log("Workout details:", workout);
+      const workoutDescription = {
+        Phase: workout["Phase"],
+        "Weeks to 2.4km": workout["Weeks to 2.4km"],
+        "Session 1": replaceWorkoutPlaceholders(
+          workoutDescriptions[workout["Session 1"]] || "Description not found",
+          z3Paces,
+          hrZones
+        ),
+        "Session 2": replaceWorkoutPlaceholders(
+          workoutDescriptions[workout["Session 2"]] || "Description not found",
+          z3Paces,
+          hrZones
+        ),
+      };
+      console.log(workoutDescription);
+      return workoutDescription;
+    });
+
+    return trainingPlan;
   } catch (error) {
-    console.error("Fetching training plan failed:", error);
+    console.error("Fetching and processing the training plan failed:", error);
     return [];
   }
-
-  // Check if the schedule is an array before proceeding
-  if (!Array.isArray(schedule)) {
-    console.error("Expected an array for schedule, received:", schedule);
-    return [];
-  }
-  //
-  //
-
-  // Replace placeholders in the schedule with actual calculated values
-  const trainingPlan = schedule.map((workout) => {
-    // Assuming workout has properties like 'Phase', 'Weeks to 2.4km', 'Session 1', 'Session 2', 'Session 3'
-    console.log("Workout details:", workout);
-    const workoutDescription = {
-      Phase: workout["Phase"],
-      "Weeks to 2.4km": workout["Weeks to 2.4km"],
-      "Session 1": replaceWorkoutPlaceholders(
-        workoutDescriptions[workout["Session 1"]] || "Description not found",
-        z3Paces,
-        hrZones
-      ),
-      "Session 2": replaceWorkoutPlaceholders(
-        workoutDescriptions[workout["Session 2"]] || "Description not found",
-        z3Paces,
-        hrZones
-      ),
-    };
-    console.log(workoutDescription);
-    return workoutDescription;
-  });
-
-  return trainingPlan;
 };
