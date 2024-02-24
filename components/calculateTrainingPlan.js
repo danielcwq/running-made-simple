@@ -72,40 +72,47 @@ const fetchTrainingPlanData = async (weeksUntilRace) => {
 */
 // Placeholder for the logic to calculate the pace zones
 const calculateZ3Pace = (totalSeconds) => {
+  function roundToNearestFive(seconds) {
+    return 5 * Math.round(seconds / 5);
+  }
   const raceTimeInSeconds = totalSeconds * Math.pow(2, 1.06);
   const paces = {
     "Z3 100m": (raceTimeInSeconds / 24).toFixed(0) + "s",
     "Z3 200m":
       Math.floor(raceTimeInSeconds / 12 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 12) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 12) % 60)) +
       "s",
+
     "Z3 300m":
       Math.floor(raceTimeInSeconds / 8 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 8) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 8) % 60)) +
       "s",
+
     "Z3 400m":
       Math.floor(raceTimeInSeconds / 6 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 6) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 6) % 60)) +
       "s",
+
     "Z3 500m":
       Math.floor(raceTimeInSeconds / 4.8 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 4.8) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 4.8) % 60)) +
       "s",
+
     "Z3 600m":
       Math.floor(raceTimeInSeconds / 4 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 4) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 4) % 60)) +
       "s",
+
     "Z3 800m":
       Math.floor(raceTimeInSeconds / 3 / 60) +
       "m " +
-      Math.floor((raceTimeInSeconds / 3) % 60) +
+      roundToNearestFive(Math.floor((raceTimeInSeconds / 3) % 60)) +
       "s",
-    // Continue for other distances if needed
   };
 
   return paces;
@@ -126,8 +133,8 @@ const calculateHeartRateZones = (birthdate) => {
   const z2UpperLimit = Math.round(0.85 * maxHeartRate);
 
   return {
-    Z1: `below ${z1UpperLimit} bpm`,
-    Z2: `${z2LowerLimit}-${z2UpperLimit} bpm`,
+    Z1: `below ${z1UpperLimit}bpm`,
+    Z2: `${z2LowerLimit}-${z2UpperLimit}bpm`,
   };
 };
 

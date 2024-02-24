@@ -23,7 +23,7 @@ const TrainingPlanGenerator = () => {
     );
 
     // Check if the race date is within the acceptable range
-    if (weeksUntilRace < 8 || weeksUntilRace > 16) {
+    if (weeksUntilRace <= 8 || weeksUntilRace >= 16) {
       alert("Race date must be between 8 and 16 weeks from today.");
       return; // Exit the function if not within the range
     }
@@ -42,6 +42,22 @@ const TrainingPlanGenerator = () => {
       // Handle the error appropriately
     }
   };
+  const getColor = (phase) => {
+    switch (phase) {
+      case "Base":
+        return "bg-green-100";
+      case "Threshold":
+        return "bg-yellow-100";
+      case "Recovery":
+        return "bg-blue-100";
+      case "Specific":
+        return "bg-red-100";
+      case "Taper":
+        return "bg-purple-100";
+      default:
+        return "";
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -54,7 +70,6 @@ const TrainingPlanGenerator = () => {
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
             <Link href="https://danielching.me"> Daniel Ching</Link>
           </p>
-          <p>Some functionalities don't work, we're working to fix it!</p>
           <Navigation />
         </div>
         <div>
@@ -119,11 +134,23 @@ const TrainingPlanGenerator = () => {
                 <tbody>
                   {trainingPlan && trainingPlan.length > 0 ? (
                     trainingPlan.map((week, index) => (
-                      <tr key={index}>
-                        <td>{week["Phase"]}</td>
-                        <td>{week["Weeks to 2.4km"]}</td>
-                        <td>{week["Session 1"]}</td>
-                        <td>{week["Session 2"]}</td>
+                      <tr
+                        key={index}
+                        className={`border-b w-full ${getColor(week["Phase"])}`}
+                      >
+                        <td className="px-4 py-2 text-justify">
+                          {week["Phase"]}
+                        </td>
+                        <td className="px-4 py-2 text-justify">
+                          {week["Weeks to 2.4km"]}
+                        </td>
+                        <td className="px-4 py-2 text-justify">
+                          {" "}
+                          {week["Session 1"]}
+                        </td>
+                        <td className="px-4 py-2 text-justify">
+                          {week["Session 2"]}
+                        </td>
                       </tr>
                     ))
                   ) : (
