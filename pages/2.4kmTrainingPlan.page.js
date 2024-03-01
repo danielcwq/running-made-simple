@@ -64,13 +64,24 @@ const TrainingPlanGenerator = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold my-3 text-center">
-            2.4km Training Plan Generator
+            2.4km Training Plan Generator for Beginners!
           </h1>
           <p className="">
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
             <Link href="https://danielching.me"> Daniel Ching</Link>
           </p>
           <Navigation />
+        </div>
+        <div className>
+          <h2 className="font-bold">
+            Instructions--follow 3 simple steps to get started!
+          </h2>
+          <p>
+            1. Do a 1.2km time trial around the track (3 laps)/ input your best
+            estimate.
+          </p>
+          <p>2. Select an IPPT date 8 to 16 weeks from now.</p>
+          <p>3. Input your birthdate and generate the plan!</p>
         </div>
         <div>
           <form onSubmit={handleGeneratePlan}>
