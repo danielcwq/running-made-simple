@@ -20,6 +20,7 @@ const workoutDescriptions = {
   "2.4/1000": "2 x (1000m in {Z3 1000m}, {Z3 1000m} recovery)",
   Nil: "Rest",
   "T/200/5": "2 x (200m in {Z3 200m}, {Z3 400m} recovery)",
+  "TT 1.2km": "Run 1.2km (3 laps) all out",
 };
 /* THIS DOESN'T WORK BECAUSE XLSX.READFILE IS A SERVER-SIDE OPERATION, NOT A CLIENT SIDE ONE 
 const getTrainingPlanFromSheet = async (weeksUntilRace) => {
