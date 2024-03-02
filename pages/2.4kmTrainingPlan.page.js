@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { calculateTrainingPlan } from "../components/calculateTrainingPlan";
 import Link from "next/link";
 import Navigation from "@/components/navigation";
+import { calculateTrainingPlanData } from "../components/calculateTrainingPlan";
 const TrainingPlanGenerator = () => {
   const [timeTrialMinutes, setTimeTrialMinutes] = useState("");
   const [timeTrialSeconds, setTimeTrialSeconds] = useState("");
@@ -9,11 +10,25 @@ const TrainingPlanGenerator = () => {
   const [raceDate, setRaceDate] = useState("");
   const [trainingPlan, setTrainingPlan] = useState([]);
   const [isPlanGenerated, setIsPlanGenerated] = useState(false);
-
+  const [z3Speed, setZ3Speed] = useState(0);
+  const [hrZonesAndPaces, setHrZonesAndPaces] = useState({
+    heartRateZones: {},
+    paces: {},
+  });
+  useEffect(() => {
+    if (birthdate && timeTrialSeconds) {
+      const data = calculateTrainingPlanData(birthdate, timeTrialSeconds);
+      setHrZonesAndPaces(data);
+    }
+  }, [birthdate, timeTrialSeconds]);
   const handleGeneratePlan = async (event) => {
     event.preventDefault();
     const totalSeconds =
       parseInt(timeTrialMinutes) * 60 + parseInt(timeTrialSeconds);
+    const z3SpeedCalculated =
+      (100 / ((totalSeconds * Math.pow(2, 1.06)) / 24)) * 3.6;
+    setZ3Speed(z3SpeedCalculated.toFixed(1));
+
     // Calculate the number of weeks until the race
     const raceDateObject = new Date(raceDate);
     const currentDate = new Date();
@@ -37,6 +52,9 @@ const TrainingPlanGenerator = () => {
       );
       setTrainingPlan(plan);
       setIsPlanGenerated(true);
+      return {
+        z3Speed,
+      };
     } catch (error) {
       console.error("Error generating training plan:", error);
       // Handle the error appropriately
@@ -64,7 +82,7 @@ const TrainingPlanGenerator = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold my-3 text-center">
-            2.4km Training Plan Generator for Beginners!
+            2.4km Training Plan Generator for Beginners
           </h1>
           <p className="">
             Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link> and
@@ -72,16 +90,18 @@ const TrainingPlanGenerator = () => {
           </p>
           <Navigation />
         </div>
-        <div className>
-          <h2 className="font-bold">
-            Instructions--follow 3 simple steps to get started!
+        <div className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
+          <h2 className="text-lg leading-6 font-medium text-gray-900">
+            Instructions-follow 3 simple steps to get started!
           </h2>
-          <p>
-            1. Do a 1.2km time trial around the track (3 laps)/ input your best
-            estimate.
-          </p>
-          <p>2. Select an IPPT date 8 to 16 weeks from now.</p>
-          <p>3. Input your birthdate and generate the plan!</p>
+          <ol className="mt-2 text-sm text-gray-600 space-y-2">
+            <li>
+              1. Do a 1.2km time trial around the track (3 laps)/ input your
+              best estimate.
+            </li>
+            <li>2. Select an IPPT date 8 to 16 weeks from now.</li>
+            <li>3. Input your birthdate and generate the plan!</li>
+          </ol>
         </div>
         <div>
           <form onSubmit={handleGeneratePlan}>
@@ -133,6 +153,26 @@ const TrainingPlanGenerator = () => {
 
           {isPlanGenerated && (
             <div>
+              <p className="text-2xl  my-3 text-center">
+                Your Personalised 2.4km Training Plan
+              </p>
+              <div className="mb-5 p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
+                <p>Your training zones (values reflected in the table too):</p>
+                Zone 1 is <b>{hrZonesAndPaces.heartRateZones.Z1}</b>{" "}
+                <p>
+                  Zone 2 is <b>{hrZonesAndPaces.heartRateZones.Z2}</b>
+                </p>
+                <p>
+                  {" "}
+                  Zone 3 speed is <b>{z3Speed}km/h</b>
+                </p>
+                <Link
+                  href="https://www.youtube.com/watch?v=OR9RMuVBtSM&ab_channel=MOKYingRen"
+                  className="hover:text-blue-600 italic text-center"
+                >
+                  How do I use this program?
+                </Link>
+              </div>
               <table>
                 <thead>
                   <tr>

@@ -76,7 +76,9 @@ const calculateZ3Pace = (totalSeconds) => {
     return 5 * Math.round(seconds / 5);
   }
   const raceTimeInSeconds = totalSeconds * Math.pow(2, 1.06);
+
   const paces = {
+    //"Z3 Speed": `${z3Speed.toFixed(2)}km/h`,
     "Z3 100m": (raceTimeInSeconds / 24).toFixed(0) + "s",
     "Z3 200m":
       Math.floor(raceTimeInSeconds / 12 / 60) +
@@ -188,6 +190,15 @@ const replaceWorkoutPlaceholders = (workoutDescription, z3Paces, hrZones) => {
   workoutDescription = workoutDescription.replace("{Z2}", hrZones.Z2);
 
   return workoutDescription;
+};
+
+export const calculateTrainingPlanData = (birthdate, timeTrialSeconds) => {
+  const hrZones = calculateHeartRateZones(birthdate);
+  const z3Paces = calculateZ3Pace(timeTrialSeconds);
+  return {
+    heartRateZones: hrZones,
+    paces: z3Paces,
+  };
 };
 
 export const calculateTrainingPlan = async (timeTrial, birthdate, raceDate) => {
