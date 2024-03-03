@@ -132,8 +132,8 @@ const calculateHeartRateZones = (birthdate) => {
   const age = calculateAge(birthdate);
   const maxHeartRate = 211 - 0.64 * age;
   const z1UpperLimit = Math.round(0.7 * maxHeartRate);
-  const z2LowerLimit = Math.round(0.7 * maxHeartRate) + 1;
-  const z2UpperLimit = Math.round(0.85 * maxHeartRate);
+  const z2LowerLimit = Math.round(0.8 * maxHeartRate);
+  const z2UpperLimit = Math.round(0.88 * maxHeartRate);
 
   return {
     Z1: `below ${z1UpperLimit}bpm`,
