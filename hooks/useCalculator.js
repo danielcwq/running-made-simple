@@ -59,15 +59,15 @@ export const useCalculator = () => {
         (RaceTimeInSeconds / 1.2) % 60
       )}s`,
     };
-    const calculateAge = (birthdate) =>{
-      const birthDate= new Date(birthdate);
-      const difference = Date.now()-birthDate.getTime();
+    const calculateAge = (birthdate) => {
+      const birthDate = new Date(birthdate);
+      const difference = Date.now() - birthDate.getTime();
       const ageDate = new Date(difference);
-      return Math.abs(ageDate.getUTCFullYear()-1970).toFixed(5);
-    }
+      return Math.abs(ageDate.getUTCFullYear() - 1970).toFixed(5);
+    };
     const calculateHRZones = () => {
       const age = calculateAge(birthdate);
-      const maxHeartRate = 211 - 0.54 * age;
+      const maxHeartRate = 211 - 0.64 * age;
       const hrZone1 = 0.7 * maxHeartRate;
       const hrZone2Start = 0.8 * maxHeartRate;
       const hrZone2End = 0.88 * maxHeartRate;
