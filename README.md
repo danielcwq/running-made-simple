@@ -1,40 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Running Made Simple is a resource hub for _anyone_ to get started in running. Built with next.js, TailwindCSS and React. Our main value proposition is the ease of using calculators to understand your training zones better. We also have a 2.4km Training Plan Generator that generates your training plans to ace your next 2.4km with less than 60 minutes of training per week. (Where got time?!) 
 
-## Getting Started
+## 2.4km Training Plan Generator
 
-First, run the development server:
+As simple as keying in 3 metrics:
+1. Most recent / best estimate of 1.2km race time
+2. Birthdate
+3. Race date 8-16 weeks from now. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+https://github.com/danielcwq/running-made-simple/assets/75194564/61f6ca60-a6cc-4a30-8769-9c6d1473d154
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Other fun things 
+In our hub, there are also fun things to play around with, such as: 
+1. [Training Zone Calculator] (https://www.runningmadesimple.sg/training-zone-calculator) - Identifying your training zones without additional frills (if you're self-training).
+2. [Race Pace Calculator] (https://www.runningmadesimple.sg/race-pace-calculator) - To help you pace better, for any race! 
