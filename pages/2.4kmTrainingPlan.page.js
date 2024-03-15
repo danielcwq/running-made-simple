@@ -153,7 +153,7 @@ const TrainingPlanGenerator = () => {
 
           {isPlanGenerated && (
             <div>
-              <p className="text-2xl  my-3 text-center">
+              <p className="text-2xl my-3 text-center">
                 Your Personalised 2.4km Training Plan
               </p>
               <div className="mb-5 p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
