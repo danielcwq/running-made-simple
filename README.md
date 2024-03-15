@@ -15,5 +15,5 @@ https://github.com/danielcwq/running-made-simple/assets/75194564/61f6ca60-a6cc-4
 
 ## Other fun things 
 In our hub, there are also fun things to play around with, such as: 
-1. [Training Zone Calculator] (https://www.runningmadesimple.sg/training-zone-calculator) - Identifying your training zones without additional frills (if you're self-training).
-2. [Race Pace Calculator] (https://www.runningmadesimple.sg/race-pace-calculator) - To help you pace better, for any race! 
+1. [Training Zone Calculator](https://www.runningmadesimple.sg/training-zone-calculator) - Identifying your training zones without additional frills (if you're self-training).
+2. [Race Pace Calculator](https://www.runningmadesimple.sg/race-pace-calculator) - To help you pace better, for any race! 
