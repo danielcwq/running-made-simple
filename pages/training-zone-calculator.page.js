@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useCalculator } from "../hooks/useCalculator";
 import Link from "next/link";
 import Navigation from "@/components/navigation";
-
+import Image from "next/image";
 //Init
 
 export default function TrainingZones() {
@@ -46,6 +46,15 @@ export default function TrainingZones() {
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md md:max-w-xl">
         <div className="flex flex-col items-center justify-center">
+          <div className="w-28 h-28 relative mr-4 mb-4 sm:mb-0">
+            <Image
+              src="/icon.jpg"
+              alt="Running Made Simple icon"
+              layout="fill"
+              className="rounded-full"
+              objectFit="cover"
+            />
+          </div>
           <h1 className="text-2xl font-bold my-3 text-center">
             Training Zone Calculator
           </h1>

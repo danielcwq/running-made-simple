@@ -27,13 +27,35 @@ export default function Home() {
       <main className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-2xl font-bold my-6 text-center">
+            <div className="w-28 h-28 relative mr-4 mb-4 sm:mb-0">
+              <Image
+                src="/icon.jpg"
+                alt="Running Made Simple icon"
+                layout="fill"
+                className="rounded-full"
+                objectFit="cover"
+              />
+            </div>
+            <h1 className="text-2xl font-bold mb-6 text-center">
               Running Made Simple
             </h1>
+
             <p className="">
-              Built by <Link href="https://mokyingren.sg">Mok Ying Ren</Link>{" "}
+              Built by{" "}
+              <Link
+                href="https://mokyingren.sg"
+                className="hover:text-blue-600"
+              >
+                Mok Ying Ren
+              </Link>{" "}
               and
-              <Link href="https://danielching.me"> Daniel Ching</Link>
+              <Link
+                href="https://danielching.me"
+                className="hover:text-blue-600"
+              >
+                {" "}
+                Daniel Ching
+              </Link>
             </p>
             <div className="bg-white p-4 shadow-md rounded-lg max-w-2xl mx-auto mb-4">
               <div className="flex flex-col space-y-4 justify-center items-center">
