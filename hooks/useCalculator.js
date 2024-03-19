@@ -4,7 +4,7 @@ export const useCalculator = () => {
   // State hooks
   const [timeMinutes, setTimeMinutes] = useState("");
   const [timeSeconds, setTimeSeconds] = useState("");
-
+  const [Vo2Max, setVo2Max] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [raceDay, setRaceDay] = useState("");
   const [errors, setErrors] = useState({}); // New state for managing errors
@@ -13,16 +13,22 @@ export const useCalculator = () => {
     pacing: {},
     cumulativeLapTime: {},
     Hzones: {},
-    zone3speed: "",
-    zone3pace: "",
+    HardSpeed: "",
+    HardPace: "",
   });
   // Performing the calculations and fill the paceCalculator, pacing and zones
   const performCalculations = () => {
-    // Convert time to seconds for calculation
-    const totalTimeInSeconds =
-      parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
-    // Now perform your calculations based on totalTimeInSeconds
-    const RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
+    let RaceTimeInSeconds;
+    if (Vo2Max) {
+      RaceTimeInSeconds = ((85.95 - Vo2Max) / 3.079) * 60;
+    } else {
+      // Convert time to seconds for calculation
+      const totalTimeInSeconds =
+        parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
+      // Now perform your calculations based on totalTimeInSeconds
+      RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
+    }
+
     const pacing = {
       "100m": `${(RaceTimeInSeconds / 24).toFixed(0)}s`,
       "200m": `${Math.floor(RaceTimeInSeconds / 12 / 60)}m ${Math.floor(
@@ -68,22 +74,31 @@ export const useCalculator = () => {
     const calculateHRZones = () => {
       const age = calculateAge(birthdate);
       const maxHeartRate = 211 - 0.64 * age;
-      const hrZone1 = 0.7 * maxHeartRate;
-      const hrZone2Start = 0.8 * maxHeartRate;
-      const hrZone2End = 0.88 * maxHeartRate;
+      const hrZone1 = 0.51 * maxHeartRate;
+      const hrZone2Start = 0.61 * maxHeartRate;
+      const hrZone2End = 0.7 * maxHeartRate;
+      const hrZ3End = 0.8 * maxHeartRate;
+      const thresholdZoneStart = 0.81 * maxHeartRate;
+      const thresholdZoneEnd = 0.9 * maxHeartRate;
       const Hzones = {
-        "Zone 1": `<${Math.round(hrZone1)}bpm`,
-        "Zone 2": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
+        "Z1 Easy (51-60%)": `<${Math.round(hrZone2Start)}bpm`,
+        "Z2 Easy (61-70%)": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
           hrZone2End
         )}bpm`,
+        "Z3 Easy (71-80%)": `from ${Math.round(hrZone2End)}bpm - ${Math.round(
+          hrZ3End
+        )}bpm`,
+        "Threshold (81-90%)": `from ${Math.round(
+          thresholdZoneStart
+        )}bpm - ${Math.round(thresholdZoneEnd)}bpm`,
       };
       return Hzones;
     };
     const Hzones = calculateHRZones();
-    const zone3speed = `${Math.floor((3600 / RaceTimeInSeconds) * 2.4)}`;
-    const zone3pace = `${Math.floor(
-      RaceTimeInSeconds / 2.4 / 60
-    )}m ${Math.floor((RaceTimeInSeconds / 2.4) % 60)}s`;
+    const HardSpeed = `${Math.floor((3600 / RaceTimeInSeconds) * 2.4)}`;
+    const HardPace = `${Math.floor(RaceTimeInSeconds / 2.4 / 60)}m ${Math.floor(
+      (RaceTimeInSeconds / 2.4) % 60
+    )}s`;
     // Calculate estimated race time as an example
     const estimatedRaceTime = `${Math.floor(
       RaceTimeInSeconds / 1 / 60
@@ -94,8 +109,8 @@ export const useCalculator = () => {
       cumulativeLapTime,
       Hzones,
       estimatedRaceTime,
-      zone3speed,
-      zone3pace,
+      HardSpeed,
+      HardPace,
     });
   };
   // Function to validate inputs and perform calculations for date, time and age
@@ -105,8 +120,9 @@ export const useCalculator = () => {
 
     // Check for empty inputs and set errors accordingly
     let newErrors = {};
-    if (!timeMinutes.trim() || !timeSeconds.trim()) {
-      newErrors.time = "Please enter both minutes and seconds for the time.";
+    if (!Vo2Max.trim() && (!timeMinutes.trim() || !timeSeconds.trim())) {
+      newErrors.Vo2Max =
+        "Please enter either a VO2 max value or both minutes and seconds for the time.";
     }
 
     /*
@@ -143,6 +159,8 @@ export const useCalculator = () => {
 
   // Return state, setters, and validation function
   return {
+    Vo2Max,
+    setVo2Max,
     timeMinutes,
     setTimeMinutes,
     timeSeconds,
