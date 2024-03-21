@@ -7,7 +7,7 @@ export const useCalculator = () => {
   const [Vo2Max, setVo2Max] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [raceDay, setRaceDay] = useState("");
-  const [errors, setErrors] = useState({}); // New state for managing errors
+  const [errors, setErrors] = useState({});
   const [results, setResults] = useState({
     estimatedRaceTime: "",
     pacing: {},
@@ -15,11 +15,14 @@ export const useCalculator = () => {
     Hzones: {},
     HardSpeed: "",
     HardPace: "",
+    calculatedVo2Max: "",
   });
   // Performing the calculations and fill the paceCalculator, pacing and zones
   const performCalculations = () => {
     let RaceTimeInSeconds;
+    let calculatedVo2Max;
     if (Vo2Max) {
+      calculatedVo2Max = Vo2Max;
       RaceTimeInSeconds = ((85.95 - Vo2Max) / 3.079) * 60;
     } else {
       // Convert time to seconds for calculation
@@ -27,6 +30,7 @@ export const useCalculator = () => {
         parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
       // Now perform your calculations based on totalTimeInSeconds
       RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
+      calculatedVo2Max = 85.95 - 3.079 * (RaceTimeInSeconds / 60); // remember to refactor this into front end!!
     }
 
     const pacing = {
@@ -81,11 +85,12 @@ export const useCalculator = () => {
       const thresholdZoneStart = 0.81 * maxHeartRate;
       const thresholdZoneEnd = 0.9 * maxHeartRate;
       const Hzones = {
-        "Z1 Easy (51-60%)": `<${Math.round(hrZone2Start)}bpm`,
-        "Z2 Easy (61-70%)": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
+        //"Maximum Heart Rate": `${Math.round(maxHeartRate)}bpm`, <- find a way to input this too
+        "Z1 (51-60%)": `<${Math.round(hrZone2Start)}bpm`,
+        "Z2 (61-70%)": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
           hrZone2End
         )}bpm`,
-        "Z3 Easy (71-80%)": `from ${Math.round(hrZone2End)}bpm - ${Math.round(
+        "Z3 (71-80%)": `from ${Math.round(hrZone2End)}bpm - ${Math.round(
           hrZ3End
         )}bpm`,
         "Threshold (81-90%)": `from ${Math.round(
@@ -111,6 +116,7 @@ export const useCalculator = () => {
       estimatedRaceTime,
       HardSpeed,
       HardPace,
+      calculatedVo2Max,
     });
   };
   // Function to validate inputs and perform calculations for date, time and age

@@ -162,33 +162,76 @@ export default function TrainingZones() {
             </button>
 
             {/* Results display */}
-            {results.estimatedRaceTime && (
+            {results.estimatedRaceTime && results.calculatedVo2Max && (
               <div>
                 <h2 className="font-bold text-xl my-2">Results</h2>
-                <p>Estimated 2.4km Race Time: {results.estimatedRaceTime}</p>
                 <div>
                   <h2 className="font-bold text-xl my-2">Training Zones</h2>
-                  <ul>
-                    {Object.entries(results.Hzones).map(
-                      ([zone, description]) => (
-                        <li key={zone}>
-                          <strong>{zone}</strong>: {description}
-                        </li>
-                      )
-                    )}
-                  </ul>
+                  <table className="min-w-full divide-y divide-gray-200 mt-2 border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="border">Zone Name</th>
+                        <th className="border">Heart Rate Zone</th>
+                        <th className="border"> HR Range </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      <tr>
+                        <td className="border bg-green-100" rowSpan={3}>
+                          Easy
+                        </td>
+                        <td className="border bg-green-100">Z1 (51-60%)</td>
+                        <td className="border bg-green-100">
+                          {results.Hzones["Z1 (51-60%)"]}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border bg-green-100">Z2 (61-70%)</td>
+                        <td className="border bg-green-100">
+                          {results.Hzones["Z2 (61-70%)"]}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border bg-green-100">Z2 (61-70%)</td>
+                        <td className="border bg-green-100">
+                          {results.Hzones["Z3 (71-80%)"]}
+                        </td>
+                      </tr>
+                      <tr className="bg-yellow-100">
+                        <td className="border">Threshold</td>
+                        <td className="border">Threshold (81-90%)</td>
+                        <td className="border">
+                          {results.Hzones["Threshold (81-90%)"]}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                   <div>
                     <h2 className="font-bold my-2">Zone 5</h2>
+                    <p>
+                      Estimated 2.4km Race Time: {results.estimatedRaceTime}
+                    </p>
+
+                    <p> Estimated Vo2Max: {results.calculatedVo2Max}</p>
                     <p className="italic">2.4km (VO2 Max) Track Pacing</p>
-                    <ul>
-                      {Object.entries(results.pacing).map(
-                        ([distance, time]) => (
-                          <li key={distance}>
-                            {distance} Pacing: {time}
-                          </li>
-                        )
-                      )}
-                    </ul>
+                    <table className="min-w-full divide-y divide-gray-200 mt-2">
+                      <thead>
+                        <tr>
+                          <th>Distance</th>
+                          <th>Pacing</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {Object.entries(results.pacing).map(
+                          ([distance, time]) => (
+                            <tr key={distance}>
+                              <td>{distance}</td>
+                              <td>{time}</td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
                     <div className="my-3">
                       Run at <strong>{results.HardPace} per km </strong>or{" "}
                       <strong>
