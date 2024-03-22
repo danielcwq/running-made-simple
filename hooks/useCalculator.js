@@ -51,6 +51,9 @@ export const useCalculator = () => {
         (RaceTimeInSeconds / 3) % 60
       )}s`,
       */
+      "1000m": `${Math.floor(RaceTimeInSeconds / 2.4 / 60)}m ${Math.floor(
+        (RaceTimeInSeconds / 2.4) % 60
+      )}s`,
     };
     const cumulativeLapTime = {
       "Lap 1": `${Math.floor(RaceTimeInSeconds / 6 / 60)}m ${Math.floor(
@@ -96,6 +99,9 @@ export const useCalculator = () => {
         "Threshold (81-90%)": `from ${Math.round(
           thresholdZoneStart
         )}bpm - ${Math.round(thresholdZoneEnd)}bpm`,
+        "Z5 (91-100%)": `from ${Math.round(thresholdZoneEnd)}bpm - ${Math.round(
+          maxHeartRate
+        )}bpm`,
       };
       return Hzones;
     };

@@ -21,6 +21,10 @@ export default function TrainingZones() {
     validateAndCalculate,
   } = useCalculator();
   const [activeInput, setActiveInput] = useState("timeTrial");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   //const handleTabChange = (tab) => {
   //  setActiveTab(tab);
   //  console.log("results when switching to $(tabName):", results);
@@ -153,7 +157,6 @@ export default function TrainingZones() {
               </p>
             ))}
 
-            {/* Calculate button */}
             <button
               type="submit"
               className="py-2 px-4 font-medium rounded-md bg-blue-600 text-white"
@@ -164,7 +167,6 @@ export default function TrainingZones() {
             {/* Results display */}
             {results.estimatedRaceTime && results.calculatedVo2Max && (
               <div>
-                <h2 className="font-bold text-xl my-2">Results</h2>
                 <div>
                   <h2 className="font-bold text-xl my-2">Training Zones</h2>
                   <table className="min-w-full divide-y divide-gray-200 mt-2 border-collapse">
@@ -177,42 +179,75 @@ export default function TrainingZones() {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                       <tr>
-                        <td className="border bg-green-100" rowSpan={3}>
+                        <td className="border p-2 bg-green-100" rowSpan={3}>
                           Easy
                         </td>
-                        <td className="border bg-green-100">Z1 (51-60%)</td>
-                        <td className="border bg-green-100">
+                        <td className="border p-2 bg-green-100">Z1 (51-60%)</td>
+                        <td className="border p-2 bg-green-100">
                           {results.Hzones["Z1 (51-60%)"]}
                         </td>
                       </tr>
                       <tr>
-                        <td className="border bg-green-100">Z2 (61-70%)</td>
-                        <td className="border bg-green-100">
+                        <td className="border p-2 bg-green-100">Z2 (61-70%)</td>
+                        <td className="border p-2 bg-green-100">
                           {results.Hzones["Z2 (61-70%)"]}
                         </td>
                       </tr>
                       <tr>
-                        <td className="border bg-green-100">Z2 (61-70%)</td>
-                        <td className="border bg-green-100">
+                        <td className="border p-2 bg-green-100">Z2 (61-70%)</td>
+                        <td className="border p-2  bg-green-100">
                           {results.Hzones["Z3 (71-80%)"]}
                         </td>
                       </tr>
-                      <tr className="bg-yellow-100">
-                        <td className="border">Threshold</td>
-                        <td className="border">Threshold (81-90%)</td>
-                        <td className="border">
+                      <tr className="bg-yellow-100 border p-3">
+                        <td className="border p-2 ">Threshold</td>
+                        <td className="border p-2 ">Threshold (81-90%)</td>
+                        <td className="border p-2 ">
                           {results.Hzones["Threshold (81-90%)"]}
                         </td>
                       </tr>
+                      <tr>
+                        {/* Your dropdown toggle cell */}
+                        <td colSpan="3" className="border p-2">
+                          <button
+                            onClick={toggleDropdown}
+                            className="text-left w-full flex justify-between items-center"
+                          >
+                            We don't use HR for hard sessions, but if you
+                            insist:
+                            <span
+                              className={
+                                isDropdownOpen ? "transform rotate-180" : ""
+                              }
+                            >
+                              ⬇️
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                      {isDropdownOpen && (
+                        <tr className="bg-red-100">
+                          <td className="border p-2">Hard *</td>
+                          <td className="border p-2">Z5 (91-100%)</td>
+                          <td className="border p-2">
+                            {results.Hzones["Z5 (91-100%)"]}
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
-                  <div>
-                    <h2 className="font-bold my-2">Zone 5</h2>
-                    <p>
-                      Estimated 2.4km Race Time: {results.estimatedRaceTime}
-                    </p>
+                  <div className="p-2">
+                    <h2 className="font-bold my-2">Hard Pacing</h2>
+                    <div className="p-2 border-2 border-gray-200 rounded-lg bg-gray-50">
+                      <div className="mt-2 space-y-2">
+                        <p>
+                          Estimated 2.4km Race Time: {results.estimatedRaceTime}
+                        </p>
 
-                    <p> Estimated Vo2Max: {results.calculatedVo2Max}</p>
+                        <p> Estimated Vo2Max: {results.calculatedVo2Max}</p>
+                      </div>
+                    </div>
+
                     <p className="italic">2.4km (VO2 Max) Track Pacing</p>
                     <table className="min-w-full divide-y divide-gray-200 mt-2">
                       <thead>
