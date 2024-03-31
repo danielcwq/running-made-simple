@@ -17,20 +17,65 @@ export const useCalculator = () => {
     HardPace: "",
     calculatedVo2Max: "",
   });
-  // Performing the calculations and fill the paceCalculator, pacing and zones
+  function calculateRaceTime(v) {
+    var d = 2400; // Fixed distance for prediction
+    var t = d * 0.004; // Initial time estimate
+    var n = 0;
+    var c, i, e, dc, di, dt;
+
+    if (isNaN(v)) {
+      console.error("VO2Max value must be numeric.");
+      return null;
+    }
+
+    do {
+      c = -4.6 + (0.182258 * d) / t + (0.000104 * d * d) / t / t;
+      i =
+        0.8 +
+        0.1894393 * Math.exp(-0.012778 * t) +
+        0.2989558 * Math.exp(-0.1932605 * t);
+      e = Math.abs(c - i * v);
+      dc = (-0.182258 * d) / t / t - (2 * 0.000104 * d * d) / t / t / t;
+      di =
+        -0.012778 * 0.1894393 * Math.exp(-0.012778 * t) -
+        0.1932605 * 0.2989558 * Math.exp(-0.1932605 * t);
+      dt = (c - i * v) / (dc - di * v);
+      t -= dt;
+      n++;
+    } while (n < 10 && e > 0.1);
+
+    var RaceTimeInSeconds = Math.round(t * 60); // Round to nearest second
+    return RaceTimeInSeconds;
+  }
+  function calculateVo2Max(timeInSeconds) {
+    var d = 1200; // Fixed distance
+    var t = timeInSeconds / 60;
+    if (isNaN(t)) {
+      console.error("Time value must be numeric.");
+      return null;
+    }
+
+    var c = -4.6 + (0.182258 * d) / t + (0.000104 * d * d) / t / t;
+    var i =
+      0.8 +
+      0.1894393 * Math.exp(-0.012778 * t) +
+      0.2989558 * Math.exp(-0.1932605 * t);
+    var calculatedVo2Max = Math.round((1000 * c) / i) / 1000; // Calculate VO2Max and round to three decimal places
+
+    return calculatedVo2Max;
+  }
+
   const performCalculations = () => {
     let RaceTimeInSeconds;
     let calculatedVo2Max;
     if (Vo2Max) {
-      calculatedVo2Max = Vo2Max;
-      RaceTimeInSeconds = ((85.95 - Vo2Max) / 3.079) * 60;
+      RaceTimeInSeconds = calculateRaceTime(Vo2Max); // Fixed to store result of calculateRaceTime in RaceTimeInSeconds
+      calculatedVo2Max = Vo2Max; // This line remains as is
     } else {
-      // Convert time to seconds for calculation
       const totalTimeInSeconds =
         parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
-      // Now perform your calculations based on totalTimeInSeconds
+      calculatedVo2Max = calculateVo2Max(totalTimeInSeconds);
       RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
-      calculatedVo2Max = 85.95 - 3.079 * (RaceTimeInSeconds / 60); // remember to refactor this into front end!!
     }
 
     const pacing = {
