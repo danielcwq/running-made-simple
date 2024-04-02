@@ -44,7 +44,14 @@ export const useCalculator = () => {
       n++;
     } while (n < 10 && e > 0.1);
 
-    var RaceTimeInSeconds = Math.round(t * 60); // Round to nearest second
+    var RaceTimeInSecondsBeforeTemp = Math.round(t * 60); // Round to nearest second
+    let impact;
+    impact = (38 - 15) * (0.1666667 * RaceTimeInSecondsBeforeTemp); // where 38 is the feels like temp
+    let paceDiff;
+    paceDiff = impact / (2.4 * 60); //perKM impact
+    let totalTimeIncrement;
+    totalTimeIncrement = paceDiff * 2.4;
+    var RaceTimeInSeconds = RaceTimeInSecondsBeforeTemp + totalTimeIncrement;
     return RaceTimeInSeconds;
   }
   function calculateVo2Max(timeInSeconds) {
@@ -141,7 +148,7 @@ export const useCalculator = () => {
         "Z3 (71-80%)": `from ${Math.round(hrZone2End)}bpm - ${Math.round(
           hrZ3End
         )}bpm`,
-        "Threshold (81-90%)": `from ${Math.round(
+        "Z4 (81-90%)": `from ${Math.round(
           thresholdZoneStart
         )}bpm - ${Math.round(thresholdZoneEnd)}bpm`,
         "Z5 (91-100%)": `from ${Math.round(thresholdZoneEnd)}bpm - ${Math.round(
