@@ -237,23 +237,21 @@ export default function TrainingZones() {
                     </tbody>
                   </table>
                   <div className="p-2">
-                    <h2 className="font-bold my-2">Hard Pacing</h2>
+                    <h2 className="font-bold my-2">Z5 Pacing</h2>
                     <div className="p-2 border-2 border-gray-200 rounded-lg bg-gray-50">
                       <div className="mt-2 space-y-2">
                         <p>
                           Estimated 2.4km Race Time: {results.estimatedRaceTime}
                         </p>
-
-                        <p> Estimated Vo2Max: {results.calculatedVo2Max}</p>
                       </div>
                     </div>
 
-                    <p className="italic">2.4km (VO2 Max) Track Pacing</p>
-                    <table className="min-w-full divide-y divide-gray-200 mt-2">
+                    <p className="italic mt-2">Track Pacing</p>
+                    <table className="min-w-full divide-y divide-gray-200 mt-2 ">
                       <thead>
                         <tr>
                           <th>Distance</th>
-                          <th>Pacing</th>
+                          <th>2.4km Pacing</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
@@ -265,16 +263,18 @@ export default function TrainingZones() {
                             </tr>
                           )
                         )}
+                        {/* Insert an empty row */}
+                        <tr className="bg-gray-200">
+                          <td colSpan="2">&nbsp;</td>{" "}
+                          {/* Use &nbsp; to insert a non-breaking space, or leave it empty for a completely empty cell */}
+                        </tr>
+                        {/* Row for displaying HardSpeed */}
+                        <tr>
+                          <td>Treadmill Speed</td>
+                          <td>{results.HardSpeed} km/h</td>
+                        </tr>
                       </tbody>
                     </table>
-                    <div className="my-3">
-                      Run at <strong>{results.HardPace} per km </strong>or{" "}
-                      <strong>
-                        {results.HardSpeed}
-                        km/h
-                      </strong>{" "}
-                      on treadmill
-                    </div>
                   </div>
                 </div>
               </div>
