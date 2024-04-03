@@ -201,9 +201,9 @@ export default function TrainingZones() {
                       </tr>
                       <tr className="bg-yellow-100 border p-3">
                         <td className="border p-2 ">Threshold</td>
-                        <td className="border p-2 ">Threshold (81-90%)</td>
+                        <td className="border p-2 ">Z4 (81-90%)</td>
                         <td className="border p-2 ">
-                          {results.Hzones["Threshold (81-90%)"]}
+                          {results.Hzones["Z4 (81-90%)"]}
                         </td>
                       </tr>
                       <tr>
