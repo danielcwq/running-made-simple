@@ -77,6 +77,11 @@ const TrainingPlanGenerator = () => {
         return "";
     }
   };
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -107,7 +112,7 @@ const TrainingPlanGenerator = () => {
           <ol className="mt-2 text-sm text-gray-600 space-y-2">
             <li>
               1. Do a 1.2km time trial around the track (3 laps)/ input your
-              best estimate.
+              best estimate. OR input your watch-estimated Vo2Max.
             </li>
             <li>2. Select an IPPT date 8 to 16 weeks from now.</li>
             <li>3. Input your birthdate and generate the plan!</li>
@@ -167,10 +172,12 @@ const TrainingPlanGenerator = () => {
                 Your Personalised 2.4km Training Plan
               </p>
               <div className="mb-5 p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
+                <p>Plan generated on {currentDate}</p>{" "}
+                {/* to format this string later!*/}
                 <p>Your training zones (values reflected in the table too):</p>
-                Zone 1 is <b>{hrZonesAndPaces.heartRateZones.Z1}</b>{" "}
+                Zone 1 <b>{hrZonesAndPaces.heartRateZones.Z1}</b>{" "}
                 <p>
-                  Zone 2 is <b>{hrZonesAndPaces.heartRateZones.Z2}</b>
+                  Zone 2 <b>{hrZonesAndPaces.heartRateZones.Z2}</b>
                 </p>
                 <p>
                   {" "}
