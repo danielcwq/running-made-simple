@@ -430,6 +430,13 @@ const NewTrainingPlanPage = () => {
                       or re-input vo2Max value and input the same date of
                       generation.{" "}
                     </li>
+                    <li>
+                      Give yourself at least 2-3 days of rest between hard
+                      workouts.
+                    </li>
+                    <li>
+                      Feel free to add another 30min Z2 if you're feeling good!{" "}
+                    </li>
                   </ol>
                 </div>
                 <table>
