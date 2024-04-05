@@ -2,13 +2,13 @@ import * as XLSX from "xlsx";
 import { useCalculator } from "@/hooks/useCalculator";
 
 const workoutDescriptions = {
-  "Z1.20": "20min at Z1",
-  "Z1.30": "30min at Z1",
-  "Z2.2": "5 x (2min at Z4, 2min Z3)",
-  "Z2.3": "3 x (3min at Z4, 3min Z3)",
-  "Z2.4": "3 x (4min at Z4, 2min Z3)",
-  "Z2.5": "2 x (5min at Z4, 5min Z3)",
-  "Z2.6": "2 x (6min at Z4, 3min Z3)",
+  "Z1.20": "20min at Z2",
+  "Z1.30": "30min at Z2",
+  "Z2.2": "5 x (2min at Z4, 2min recovery)",
+  "Z2.3": "3 x (3min at Z4, 3min recovery)",
+  "Z2.4": "3 x (4min at Z4, 2min recovery)",
+  "Z2.5": "2 x (5min at Z4, 5min recovery)",
+  "Z2.6": "2 x (6min at Z4, 3min recovery)",
   "2.4/200": "8 x (200m in {Z3 200m}, {Z3 200m} recovery)",
   "2.4/300": "5 x (300m in {Z3 300m}, {Z3 300m} recovery)",
   "2.4/400": "4 x (400m in {Z3 400m}, {Z3 400m} recovery)",
