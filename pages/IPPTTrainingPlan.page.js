@@ -43,7 +43,8 @@ const NewTrainingPlanPage = () => {
   const [weeksUntilRace, setWeeksUntilRace] = useState(null);
   const [calculationTrigger, setCalculationTrigger] = useState(false);
   const [calculationCounter, setCalculationCounter] = useState(0);
-  const resultsRef = useRef(null);
+  const topContentRef = useRef(null);
+  const bottomContentRef = useRef(null);
   const [trainingStartDate, setTrainingStartDate] = useState("");
   const currentDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -122,20 +123,20 @@ const NewTrainingPlanPage = () => {
     setCalculationCounter((prevCounter) => prevCounter + 1);
   };
   const exportAsImage = () => {
-    html2canvas(resultsRef.current).then((canvas) => {
-      // Create an image from the canvas
-      const image = canvas.toDataURL("image/png", 1.0);
+    const exportSection = (sectionRef, fileName) => {
+      html2canvas(sectionRef.current).then((canvas) => {
+        const image = canvas.toDataURL("image/png", 1.0);
+        let downloadLink = document.createElement("a");
+        downloadLink.href = image;
+        downloadLink.download = `${fileName}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      });
+    };
 
-      // Create a link to trigger the download
-      let downloadLink = document.createElement("a");
-      downloadLink.href = image;
-      downloadLink.download = "training-plan.png";
-
-      // Append the link to the document and trigger the download
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    });
+    exportSection(topContentRef, "training-plan-top");
+    exportSection(bottomContentRef, "training-plan-bottom");
   };
 
   return (
@@ -296,7 +297,7 @@ const NewTrainingPlanPage = () => {
           </form>
 
           {/* Results display */}
-          <div ref={resultsRef}>
+          <div ref={topContentRef}>
             {results.estimatedRaceTime && results.calculatedVo2Max && (
               <div>
                 <div>
@@ -410,7 +411,8 @@ const NewTrainingPlanPage = () => {
                 </div>
               </div>
             )}
-
+          </div>
+          <div ref={bottomContentRef}>
             {trainingPlan.length > 0 && (
               <>
                 <p className="text-2xl my-3 text-center">2.4km Training Plan</p>
