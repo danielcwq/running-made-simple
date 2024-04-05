@@ -25,24 +25,13 @@ export default function TrainingZones() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  //const handleTabChange = (tab) => {
-  //  setActiveTab(tab);
-  //  console.log("results when switching to $(tabName):", results);
-  //};
-
-  // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const isValid = validateAndCalculate();
     if (!isValid) {
-      // Handle the invalid case, such as showing errors
-      // Error messages are available in the 'errors' object
       console.log(errors);
     } else {
-      // Proceed with the valid input case
-      // ...
     }
-    //console.log("Rendering content for tab: ", activeTab);
     console.log("Current results: ", results);
   };
 
@@ -172,7 +161,7 @@ export default function TrainingZones() {
                   <table className="min-w-full divide-y divide-gray-200 mt-2 border-collapse">
                     <thead>
                       <tr>
-                        <th className="border">Zone Name</th>
+                        <th className="border">Zone Type</th>
                         <th className="border">Heart Rate Zone</th>
                         <th className="border"> HR Range </th>
                       </tr>

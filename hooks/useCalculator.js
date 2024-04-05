@@ -10,6 +10,7 @@ export const useCalculator = () => {
   const [errors, setErrors] = useState({});
   const [results, setResults] = useState({
     estimatedRaceTime: "",
+    estimatedRaceTimeInSeconds: "",
     pacing: {},
     cumulativeLapTime: {},
     Hzones: {},
@@ -166,12 +167,14 @@ export const useCalculator = () => {
     const estimatedRaceTime = `${Math.floor(
       RaceTimeInSeconds / 1 / 60
     )}m ${Math.floor((RaceTimeInSeconds / 1) % 60)}s`;
+    const estimatedRaceTimeInSeconds = RaceTimeInSeconds;
     // Update results state
     setResults({
       pacing,
       cumulativeLapTime,
       Hzones,
       estimatedRaceTime,
+      estimatedRaceTimeInSeconds,
       HardSpeed,
       HardPace,
       calculatedVo2Max,
@@ -189,25 +192,6 @@ export const useCalculator = () => {
         "Please enter either a VO2 max value or both minutes and seconds for the time.";
     }
 
-    /*
-    if (!raceDay.trim()) {
-      newErrors.raceDay = "Please enter a race day.";
-    } else {
-      // Validate race day
-      const selectedDate = new Date(raceDay);
-      selectedDate.setHours(0, 0, 0, 0);
-      const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0);
-      const twelveWeeksLater = new Date(
-        currentDate.getTime() + 12 * 7 * 24 * 60 * 60 * 1000
-      );
-
-      if (selectedDate > twelveWeeksLater || selectedDate < currentDate) {
-        newErrors.raceDay =
-          "Race day must be within 12 weeks from today and cannot be in the past.";
-      }
-    }
-*/
     // Update the errors state if there are any errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
