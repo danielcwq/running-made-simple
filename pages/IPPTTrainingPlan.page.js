@@ -43,7 +43,8 @@ const NewTrainingPlanPage = () => {
   const [weeksUntilRace, setWeeksUntilRace] = useState(null);
   const [calculationTrigger, setCalculationTrigger] = useState(false);
   const [calculationCounter, setCalculationCounter] = useState(0);
-  const resultsRef = useRef(null); // Add this line to create a ref for the results section
+  const resultsRef = useRef(null);
+  const [trainingStartDate, setTrainingStartDate] = useState("");
   const currentDate = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -61,6 +62,7 @@ const NewTrainingPlanPage = () => {
             timeMinutes,
             timeSeconds,
             raceDay,
+            trainingStartDate,
             validateAndCalculate,
             results
           );
@@ -255,6 +257,22 @@ const NewTrainingPlanPage = () => {
               />
             </div>
             <div>
+              <label
+                htmlFor="trainingStartDate"
+                className="block text-sm font-medium"
+              >
+                Training Start Date:
+              </label>
+              <input
+                id="trainingStartDate"
+                type="date"
+                value={trainingStartDate}
+                onChange={(e) => setTrainingStartDate(e.target.value)}
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
               <label htmlFor="raceDate" className="block text-sm font-medium">
                 Race Date:
               </label>
@@ -282,7 +300,6 @@ const NewTrainingPlanPage = () => {
             {results.estimatedRaceTime && results.calculatedVo2Max && (
               <div>
                 <div>
-                  <p>Generated on {currentDate}</p>
                   <h2 className="font-bold text-lg my-2">Training Zones</h2>
                   <table className="min-w-full divide-y divide-gray-200 mt-2 border-collapse">
                     <thead>
@@ -397,6 +414,24 @@ const NewTrainingPlanPage = () => {
             {trainingPlan.length > 0 && (
               <>
                 <p className="text-2xl my-3 text-center">2.4km Training Plan</p>
+                <p>Generated on {currentDate}</p>
+                <div className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
+                  <h2 className="text-lg leading-6 font-medium text-gray-900">
+                    Futher Instructions
+                  </h2>
+                  <ol className="m-2 text-sm text-gray-600 space-y-2 list-disc">
+                    <li>Save an image of the training plan to your device!</li>
+                    <li>Warm Up and Cool Down with 10minutes in Z1. </li>
+                    <li>
+                      Recovery = walk / jog slowly to allow HR to drop to Z3.
+                    </li>
+                    <li>
+                      During recovery / benchmark week, either repeat time trial
+                      or re-input vo2Max value and input the same date of
+                      generation.{" "}
+                    </li>
+                  </ol>
+                </div>
                 <table>
                   <thead>
                     <tr>

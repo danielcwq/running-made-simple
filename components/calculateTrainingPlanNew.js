@@ -20,11 +20,11 @@ const workoutDescriptions = {
   "T/200/5": "2 x (200m in {Z3 200m}, {Z3 400m} recovery)",
   "TT 1.2km": "Run 1.2km (3 laps) all out",
 };
-const calculateWeeksUntilRace = (raceDate) => {
-  const today = new Date();
+const calculateWeeksUntilRace = (raceDate, startDate) => {
+  const start = new Date(startDate);
   const race = new Date(raceDate);
   const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-  const weeks = (race - today) / millisecondsPerWeek;
+  const weeks = (race - start) / millisecondsPerWeek;
   return Math.floor(weeks);
 };
 const fetchAndProcessXLSX = async (weeksUntilRace) => {
@@ -109,6 +109,7 @@ export const calculateTrainingPlan = async (
   timeMinutes,
   timeSeconds,
   raceDay,
+  trainingStartDate,
   validateAndCalculate,
   results
 ) => {
@@ -116,7 +117,7 @@ export const calculateTrainingPlan = async (
   if (!validateAndCalculate()) {
     throw new Error("Input validation failed");
   }
-  const weeksUntilRace = calculateWeeksUntilRace(raceDay);
+  const weeksUntilRace = calculateWeeksUntilRace(raceDay, trainingStartDate);
   const workoutSchedule = await fetchAndProcessXLSX(weeksUntilRace);
 
   const paces = calculatePaces(results.estimatedRaceTimeInSeconds);
