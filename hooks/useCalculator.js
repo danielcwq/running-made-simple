@@ -4,25 +4,88 @@ export const useCalculator = () => {
   // State hooks
   const [timeMinutes, setTimeMinutes] = useState("");
   const [timeSeconds, setTimeSeconds] = useState("");
-
+  const [Vo2Max, setVo2Max] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [raceDay, setRaceDay] = useState("");
-  const [errors, setErrors] = useState({}); // New state for managing errors
+  const [errors, setErrors] = useState({});
   const [results, setResults] = useState({
     estimatedRaceTime: "",
+    estimatedRaceTimeInSeconds: "",
     pacing: {},
     cumulativeLapTime: {},
     Hzones: {},
-    zone3speed: "",
-    zone3pace: "",
+    HardSpeed: "",
+    HardPace: "",
+    calculatedVo2Max: "",
   });
-  // Performing the calculations and fill the paceCalculator, pacing and zones
+  function calculateRaceTime(v) {
+    var d = 2400; // Fixed distance for prediction
+    var t = d * 0.004; // Initial time estimate
+    var n = 0;
+    var c, i, e, dc, di, dt;
+
+    if (isNaN(v)) {
+      console.error("VO2Max value must be numeric.");
+      return null;
+    }
+
+    do {
+      c = -4.6 + (0.182258 * d) / t + (0.000104 * d * d) / t / t;
+      i =
+        0.8 +
+        0.1894393 * Math.exp(-0.012778 * t) +
+        0.2989558 * Math.exp(-0.1932605 * t);
+      e = Math.abs(c - i * v);
+      dc = (-0.182258 * d) / t / t - (2 * 0.000104 * d * d) / t / t / t;
+      di =
+        -0.012778 * 0.1894393 * Math.exp(-0.012778 * t) -
+        0.1932605 * 0.2989558 * Math.exp(-0.1932605 * t);
+      dt = (c - i * v) / (dc - di * v);
+      t -= dt;
+      n++;
+    } while (n < 10 && e > 0.1);
+
+    var RaceTimeInSecondsBeforeTemp = Math.round(t * 60); // Round to nearest second
+    let impact;
+    impact = (38 - 15) * (0.1666667 * RaceTimeInSecondsBeforeTemp); // where 38 is the feels like temp
+    let paceDiff;
+    paceDiff = impact / (2.4 * 60); //perKM impact
+    let totalTimeIncrement;
+    totalTimeIncrement = paceDiff * 2.4;
+    var RaceTimeInSeconds = RaceTimeInSecondsBeforeTemp + totalTimeIncrement;
+    return RaceTimeInSeconds;
+  }
+  function calculateVo2Max(timeInSeconds) {
+    var d = 1200; // Fixed distance
+    var t = timeInSeconds / 60;
+    if (isNaN(t)) {
+      console.error("Time value must be numeric.");
+      return null;
+    }
+
+    var c = -4.6 + (0.182258 * d) / t + (0.000104 * d * d) / t / t;
+    var i =
+      0.8 +
+      0.1894393 * Math.exp(-0.012778 * t) +
+      0.2989558 * Math.exp(-0.1932605 * t);
+    var calculatedVo2Max = Math.round((1000 * c) / i) / 1000; // Calculate VO2Max and round to three decimal places
+
+    return calculatedVo2Max;
+  }
+
   const performCalculations = () => {
-    // Convert time to seconds for calculation
-    const totalTimeInSeconds =
-      parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
-    // Now perform your calculations based on totalTimeInSeconds
-    const RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
+    let RaceTimeInSeconds;
+    let calculatedVo2Max;
+    if (Vo2Max) {
+      RaceTimeInSeconds = calculateRaceTime(Vo2Max); // Fixed to store result of calculateRaceTime in RaceTimeInSeconds
+      calculatedVo2Max = Vo2Max; // This line remains as is
+    } else {
+      const totalTimeInSeconds =
+        parseInt(timeMinutes) * 60 + parseInt(timeSeconds);
+      calculatedVo2Max = calculateVo2Max(totalTimeInSeconds);
+      RaceTimeInSeconds = totalTimeInSeconds * Math.pow(2, 1.06);
+    }
+
     const pacing = {
       "100m": `${(RaceTimeInSeconds / 24).toFixed(0)}s`,
       "200m": `${Math.floor(RaceTimeInSeconds / 12 / 60)}m ${Math.floor(
@@ -41,6 +104,9 @@ export const useCalculator = () => {
         (RaceTimeInSeconds / 3) % 60
       )}s`,
       */
+      "1000m": `${Math.floor(RaceTimeInSeconds / 2.4 / 60)}m ${Math.floor(
+        (RaceTimeInSeconds / 2.4) % 60
+      )}s`,
     };
     const cumulativeLapTime = {
       "Lap 1": `${Math.floor(RaceTimeInSeconds / 6 / 60)}m ${Math.floor(
@@ -68,34 +134,50 @@ export const useCalculator = () => {
     const calculateHRZones = () => {
       const age = calculateAge(birthdate);
       const maxHeartRate = 211 - 0.64 * age;
-      const hrZone1 = 0.7 * maxHeartRate;
-      const hrZone2Start = 0.8 * maxHeartRate;
-      const hrZone2End = 0.88 * maxHeartRate;
+      const hrZone1 = 0.51 * maxHeartRate;
+      const hrZone2Start = 0.61 * maxHeartRate;
+      const hrZone2End = 0.7 * maxHeartRate;
+      const hrZ3End = 0.8 * maxHeartRate;
+      const thresholdZoneStart = 0.81 * maxHeartRate;
+      const thresholdZoneEnd = 0.9 * maxHeartRate;
       const Hzones = {
-        "Zone 1": `<${Math.round(hrZone1)}bpm`,
-        "Zone 2": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
+        //"Maximum Heart Rate": `${Math.round(maxHeartRate)}bpm`, <- find a way to input this too
+        "Z1 (51-60%)": `<${Math.round(hrZone2Start)}bpm`,
+        "Z2 (61-70%)": `from ${Math.round(hrZone2Start)}bpm - ${Math.round(
           hrZone2End
+        )}bpm`,
+        "Z3 (71-80%)": `from ${Math.round(hrZone2End)}bpm - ${Math.round(
+          hrZ3End
+        )}bpm`,
+        "Z4 (81-90%)": `from ${Math.round(
+          thresholdZoneStart
+        )}bpm - ${Math.round(thresholdZoneEnd)}bpm`,
+        "Z5 (91-100%)": `from ${Math.round(thresholdZoneEnd)}bpm - ${Math.round(
+          maxHeartRate
         )}bpm`,
       };
       return Hzones;
     };
     const Hzones = calculateHRZones();
-    const zone3speed = `${Math.floor((3600 / RaceTimeInSeconds) * 2.4)}`;
-    const zone3pace = `${Math.floor(
-      RaceTimeInSeconds / 2.4 / 60
-    )}m ${Math.floor((RaceTimeInSeconds / 2.4) % 60)}s`;
+    const HardSpeed = `${Math.floor((3600 / RaceTimeInSeconds) * 2.4)}`;
+    const HardPace = `${Math.floor(RaceTimeInSeconds / 2.4 / 60)}m ${Math.floor(
+      (RaceTimeInSeconds / 2.4) % 60
+    )}s`;
     // Calculate estimated race time as an example
     const estimatedRaceTime = `${Math.floor(
       RaceTimeInSeconds / 1 / 60
     )}m ${Math.floor((RaceTimeInSeconds / 1) % 60)}s`;
+    const estimatedRaceTimeInSeconds = RaceTimeInSeconds;
     // Update results state
     setResults({
       pacing,
       cumulativeLapTime,
       Hzones,
       estimatedRaceTime,
-      zone3speed,
-      zone3pace,
+      estimatedRaceTimeInSeconds,
+      HardSpeed,
+      HardPace,
+      calculatedVo2Max,
     });
   };
   // Function to validate inputs and perform calculations for date, time and age
@@ -105,29 +187,11 @@ export const useCalculator = () => {
 
     // Check for empty inputs and set errors accordingly
     let newErrors = {};
-    if (!timeMinutes.trim() || !timeSeconds.trim()) {
-      newErrors.time = "Please enter both minutes and seconds for the time.";
+    if (!Vo2Max.trim() && (!timeMinutes.trim() || !timeSeconds.trim())) {
+      newErrors.Vo2Max =
+        "Please enter either a VO2 max value or both minutes and seconds for the time.";
     }
 
-    /*
-    if (!raceDay.trim()) {
-      newErrors.raceDay = "Please enter a race day.";
-    } else {
-      // Validate race day
-      const selectedDate = new Date(raceDay);
-      selectedDate.setHours(0, 0, 0, 0);
-      const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0);
-      const twelveWeeksLater = new Date(
-        currentDate.getTime() + 12 * 7 * 24 * 60 * 60 * 1000
-      );
-
-      if (selectedDate > twelveWeeksLater || selectedDate < currentDate) {
-        newErrors.raceDay =
-          "Race day must be within 12 weeks from today and cannot be in the past.";
-      }
-    }
-*/
     // Update the errors state if there are any errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -143,6 +207,8 @@ export const useCalculator = () => {
 
   // Return state, setters, and validation function
   return {
+    Vo2Max,
+    setVo2Max,
     timeMinutes,
     setTimeMinutes,
     timeSeconds,

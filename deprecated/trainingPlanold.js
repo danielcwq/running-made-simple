@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useCalculator } from "../../hooks/useCalculator";
+import { useCalculator } from "../hooks/useCalculator";
 
 const { results } = useCalculator();
 const allWorkouts = {
