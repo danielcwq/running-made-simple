@@ -423,7 +423,10 @@ const NewTrainingPlanPage = () => {
                   </h2>
                   <ol className="m-2 text-sm text-gray-600 space-y-2 list-disc">
                     <li>Save an image of the training plan to your device!</li>
-                    <li>Warm Up and Cool Down with 10minutes in Z1. </li>
+                    <li>
+                      Warm Up and Cool Down with 10 minutes in Z1 for{" "}
+                      <span className="text-red-600">workouts in red</span>.{" "}
+                    </li>
                     <li>
                       Recovery = walk / jog slowly to allow HR to drop to Z3.
                     </li>
@@ -467,10 +470,26 @@ const NewTrainingPlanPage = () => {
                           </td>
                           <td className="px-4 py-2 text-justify">
                             {" "}
-                            {week["Session 1"]}
+                            <span
+                              className={
+                                week["Session 1"].isIntense
+                                  ? "text-red-600"
+                                  : ""
+                              }
+                            >
+                              {week["Session 1"].text}
+                            </span>
                           </td>
                           <td className="px-4 py-2 text-justify">
-                            {week["Session 2"]}
+                            <span
+                              className={
+                                week["Session 1"].isIntense
+                                  ? "text-red-600"
+                                  : ""
+                              }
+                            >
+                              {week["Session 1"].text}
+                            </span>
                           </td>
                         </tr>
                       ))

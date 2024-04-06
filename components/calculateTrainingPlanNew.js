@@ -130,16 +130,20 @@ export const calculateTrainingPlan = async (
     const workoutDescription = {
       Phase: workout["Phase"],
       "Weeks to 2.4km": workout["Weeks to 2.4km"],
-      "Session 1": replaceWorkoutPlaceholders(
-        workoutDescriptions[workout["Session 1"]] || "Description not found",
-        paces
-        //hrZones
-      ),
-      "Session 2": replaceWorkoutPlaceholders(
-        workoutDescriptions[workout["Session 2"]] || "Description not found",
-        paces
-        //hrZones
-      ),
+      "Session 1": {
+        text: replaceWorkoutPlaceholders(
+          workoutDescriptions[workout["Session 1"]] || "Description not found",
+          paces
+        ),
+        isIntense: !["Z1.20", "Z1.30"].includes(workout["Session 1"]),
+      },
+      "Session 2": {
+        text: replaceWorkoutPlaceholders(
+          workoutDescriptions[workout["Session 2"]] || "Description not found",
+          paces
+        ),
+        isIntense: !["Z1.20", "Z1.30"].includes(workout["Session 2"]),
+      },
     };
     console.log(workoutDescription);
     return workoutDescription;
