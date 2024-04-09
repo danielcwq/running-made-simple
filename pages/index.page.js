@@ -100,12 +100,39 @@ export default function Home() {
               What's to come
             </h2>
             <div>
+              <div className="p-4 border-2 border-gray-200 rounded-lg bg-gray-50 shadow-md">
+                <h2 className="text-lg text-center font-medium text-red-600">
+                  🚨Beta trial testers wanted!
+                </h2>
+                <ol className="mt-2 text-sm text-grey-600 space-y-2">
+                  <p>We're looking for runners who would be willing to:</p>
+                  <li>
+                    1. Participate in{" "}
+                    <Link
+                      href="/IPPTTrainingPlan"
+                      className="hover:text-blue-600"
+                    >
+                      our training plan
+                    </Link>
+                    .
+                  </li>
+                  <li>2. Share run data with us. </li>
+                  <li>3. Provide feedback!</li>
+                  <p className="mt-2 text-red-600">
+                    If you're interested, fill up this{" "}
+                    <Link
+                      href="https://forms.gle/EATHwZQhAZo1QEdS7"
+                      className="hover:text-blue-600"
+                    >
+                      form.{" "}
+                    </Link>
+                  </p>
+                </ol>
+              </div>
               <p className="mt-2 text-justify">
-                We're currently developing an additional page where a 2.4km
-                training plan would be generated based on your inputs, making
-                the plan fully customisable. We hope to develop this to a full
-                scale app, giving training plans for longer distances (5k, 10k,
-                HM, FM) and utilising AI to support further customisation.
+                We hope to develop this to a full scale app, giving training
+                plans for longer distances (5k, 10k, HM, FM) and utilising AI to
+                support further customisation.
               </p>
             </div>
             <h2 className="mt-5 font-bold text-xl flex justify-start">
