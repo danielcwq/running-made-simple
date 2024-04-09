@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import Navigation from "@/components/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import YouTube from "react-youtube";
 export default function Blog() {
+  const videoOptions = {
+    height: "195", // This is half of the default 16:9 aspect ratio width of 390px
+    width: "345", // Adjust the width as needed to fit the space available
+    playerVars: {
+      autoplay: 1,
+    },
+  };
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full sm:max-w-md md:max-w-xl">
@@ -26,7 +34,13 @@ export default function Blog() {
         <h2 className="my-5 font-bold text-xl flex justify-start">
           Articles & Resources
         </h2>
-        <div>
+        <div className="flex flex-col items-center justify-center">
+          <div
+            className="video-container mr-4 items-center"
+            style={{ maxWidth: "345px", marginBottom: "20px" }}
+          >
+            <YouTube videoId="jO0B5G5uYwM" opts={videoOptions} />
+          </div>
           <ul className="list-disc pl-5">
             <li>
               <Link
