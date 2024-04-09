@@ -483,12 +483,12 @@ const NewTrainingPlanPage = () => {
                           <td className="px-4 py-2 text-justify">
                             <span
                               className={
-                                week["Session 1"].isIntense
+                                week["Session 2"].isIntense
                                   ? "text-red-600"
                                   : ""
                               }
                             >
-                              {week["Session 1"].text}
+                              {week["Session 2"].text}
                             </span>
                           </td>
                         </tr>
