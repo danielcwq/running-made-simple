@@ -180,6 +180,16 @@ export default function Home() {
                 passion for running!
               </p>
             </div>
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <p className="text-center text-sm text-gray-600">
+                <Link
+                  href="/privacy"
+                  className="hover:text-blue-600 underline"
+                >
+                  Privacy Policy
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </main>
